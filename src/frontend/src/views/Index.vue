@@ -179,10 +179,10 @@
 
 <script>
 import pizza from "@/static/pizza.json";
-import { addDoughType } from "@/common/helpers/addDoughType";
-import { addSizeType } from "@/common/helpers/addSizeType";
-import { addIngredientNameLat } from "@/common/helpers/addIngredientNameLat";
-import { addSauceValue } from "@/common/helpers/addSuceValue";
+import { addDoughTypes } from "@/common/helpers/addDoughTypes";
+import { addSizeTypes } from "@/common/helpers/addSizeTypes";
+import { addIngredientLatNames } from "@/common/helpers/addIngredientLatNames";
+import { addSauceValues } from "@/common/helpers/addSauceValues";
 
 export default {
   name: "IndexHome",
@@ -196,16 +196,16 @@ export default {
   },
   computed: {
     formattedDoughTypes() {
-      return addDoughType(this.doughTypes);
+      return addDoughTypes(this.doughTypes);
     },
     formattedSizes() {
-      return addSizeType(this.sizes);
+      return addSizeTypes(this.sizes);
     },
     formattedIngredients() {
-      return addIngredientNameLat(this.ingredients);
+      return addIngredientLatNames(this.ingredients);
     },
     formattedSauces() {
-      return addSauceValue(this.sauces);
+      return addSauceValues(this.sauces);
     },
     defaults() {
       return {
