@@ -72,19 +72,19 @@
             </div>
           </div>
 
-          <div class="content__ingridients">
+          <div class="content__ingredients">
             <div class="sheet">
               <h2 class="title title--small sheet__title">
                 Выберите ингридиенты
               </h2>
 
-              <div class="sheet__content ingridients">
-                <div class="ingridients__sauce">
+              <div class="sheet__content ingredients">
+                <div class="ingredients__sauce">
                   <p>Основной соус:</p>
 
                   <label
                     v-for="sauce in formattedSauces"
-                    class="radio ingridients__input"
+                    class="radio ingredients__input"
                     :key="sauce.value"
                   >
                     <input
@@ -97,13 +97,13 @@
                   </label>
                 </div>
 
-                <div class="ingridients__filling">
+                <div class="ingredients__filling">
                   <p>Начинка:</p>
 
-                  <ul class="ingridients__list">
+                  <ul class="ingredients__list">
                     <li
                       v-for="ingredient in formattedIngredients"
-                      class="ingridients__item"
+                      class="ingredients__item"
                       :key="ingredient.nameLat"
                     >
                       <span
@@ -113,7 +113,7 @@
                         {{ ingredient.name }}
                       </span>
 
-                      <div class="counter counter--orange ingridients__counter">
+                      <div class="counter counter--orange ingredients__counter">
                         <button
                           type="button"
                           class="
