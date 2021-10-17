@@ -1,21 +1,19 @@
 <template>
   <header class="header">
     <div class="header__logo">
-      <a href="index.html" class="logo">
+      <router-link to="/" class="logo">
         <img
           src="@/assets/img/logo.svg"
           alt="V!U!E! Pizza logo"
           width="90"
           height="40"
         />
-      </a>
+      </router-link>
     </div>
     <div class="header__cart">
-      <a href="cart.html">{{ price }} ₽</a>
+      <router-link to="/cart" class="logo">{{ price }} ₽</router-link>
     </div>
-    <div class="header__user">
-      <a :href="userRedirectHref" class="header__login"><span>Войти</span></a>
-    </div>
+    <component :is="authComponent" />
   </header>
 </template>
 <script>
@@ -23,18 +21,19 @@ export default {
   name: "HeaderLayout",
   data() {
     return {
-      user: null,
+      user: 1,
     };
   },
   props: {
     price: {
       type: Number,
-      required: true,
+      default: 0,
     },
   },
   computed: {
-    userRedirectHref() {
-      return this.user ? "user-data.html" : "sign-in.html";
+    authComponent() {
+      return () =>
+        import(`@/components/${this.user ? "UserProfile" : "LoginLink"}.vue`);
     },
   },
 };
