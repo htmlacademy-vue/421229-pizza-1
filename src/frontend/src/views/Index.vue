@@ -1,41 +1,36 @@
 <template>
-  <div>
-    <HeaderLayout :price="computedPrice" />
-    <main class="content">
-      <form action="#" method="post">
-        <div class="content__wrapper">
-          <h1 class="title title--big">Конструктор пиццы</h1>
-          <BuilderDoughSelector
-            :doughTypes="formattedDoughTypes"
-            :active="doughTypes.active"
-            @setActiveDough="setActiveDough"
-          />
-          <BuilderSizeSelector
-            :sizes="formattedSizes"
-            :active="sizes.active"
-            @setActiveSize="setActiveSize"
-          />
-          <BuilderIngredientsSelector
-            :ingredients="formattedIngredients"
-            @updateIngredient="updateIngredient"
-          >
-            <BuilderSauceSelector
-              :sauces="formattedSauces"
-              :active="sauces.active"
-              @setActiveSauce="setActiveSauce"
-            />
-          </BuilderIngredientsSelector>
-          <BuilderPizzaView
-            :price="computedPrice"
-            :size="doughTypes.active.type"
-            :sauce="sauces.active.value"
-            :ingredients="activeIngredients"
-            @setPizzaName="setPizzaName"
-          />
-        </div>
-      </form>
-    </main>
-  </div>
+  <form action="#" method="post">
+    <div class="content__wrapper">
+      <h1 class="title title--big">Конструктор пиццы</h1>
+      <BuilderDoughSelector
+        :doughTypes="formattedDoughTypes"
+        :active="doughTypes.active"
+        @setActiveDough="setActiveDough"
+      />
+      <BuilderSizeSelector
+        :sizes="formattedSizes"
+        :active="sizes.active"
+        @setActiveSize="setActiveSize"
+      />
+      <BuilderIngredientsSelector
+        :ingredients="formattedIngredients"
+        @updateIngredient="updateIngredient"
+      >
+        <BuilderSauceSelector
+          :sauces="formattedSauces"
+          :active="sauces.active"
+          @setActiveSauce="setActiveSauce"
+        />
+      </BuilderIngredientsSelector>
+      <BuilderPizzaView
+        :price="computedPrice"
+        :size="doughTypes.active.type"
+        :sauce="sauces.active.value"
+        :ingredients="activeIngredients"
+        @setPizzaName="setPizzaName"
+      />
+    </div>
+  </form>
 </template>
 
 <script>
@@ -49,7 +44,6 @@ import BuilderSizeSelector from "@/modules/builder/BuilderSizeSelector.vue";
 import BuilderIngredientsSelector from "@/modules/builder/BuilderIngredientsSelector.vue";
 import BuilderPizzaView from "@/modules/builder/BuilderPizzaView.vue";
 import BuilderSauceSelector from "@/modules/builder/BuilderSauceSelector.vue";
-import HeaderLayout from "@/layouts/HeaderLayout.vue";
 
 export default {
   name: "IndexHome",
@@ -77,7 +71,6 @@ export default {
     BuilderSizeSelector,
     BuilderIngredientsSelector,
     BuilderPizzaView,
-    HeaderLayout,
     BuilderSauceSelector,
   },
   computed: {
