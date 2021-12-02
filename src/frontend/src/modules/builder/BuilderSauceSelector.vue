@@ -8,25 +8,29 @@
       :variant="sauce"
       :key="sauce.value"
       :isChecked="sauce.name === active.name"
-      @onChange="$emit('setActiveSauce', sauce)"
+      @onChange="updateEntity({ entity: 'sauces', value: sauce })"
     />
   </div>
 </template>
 
 <script>
 import RadioButton from "@/common/components/RadioButton.vue";
+import { mapMutations, mapState } from "vuex";
+import { UPDATE_ENTITY } from "../../store/mutation-types";
+
 export default {
   name: "BuilderSauceSelector",
   components: { RadioButton },
-  props: {
-    sauces: {
-      type: Array,
-      required: true,
-    },
-    active: {
-      type: Object,
-      required: false,
-    },
+  computed: {
+    ...mapState({
+      sauces: (state) => state["Builder"].sauces.list,
+      active: (state) => state["Builder"].sauces.active,
+    }),
+  },
+  methods: {
+    ...mapMutations("Builder", {
+      updateEntity: UPDATE_ENTITY,
+    }),
   },
 };
 </script>

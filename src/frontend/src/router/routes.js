@@ -8,11 +8,21 @@ const routes = [
     path: "/",
     name: "Home",
     component: () => import("../views/Index.vue"),
+    children: [
+      {
+        path: "/edit/:id",
+        name: "PizzaEdit",
+        component: () => import("../views/Index.vue"),
+      },
+    ],
   },
   {
     path: "/cart",
     name: "Cart",
     component: () => import("../views/Cart"),
+    meta: {
+      layout: "LayoutForm",
+    },
   },
   {
     path: "/profile",
@@ -34,6 +44,14 @@ const routes = [
     path: "/login",
     name: "Login",
     component: () => import("../views/Login"),
+    meta: {
+      layout: "ModalLayout",
+    },
+  },
+  {
+    path: "/order_popup",
+    name: "OrderPopup",
+    component: () => import("../modules/orders/OrderPopup"),
     meta: {
       layout: "ModalLayout",
     },

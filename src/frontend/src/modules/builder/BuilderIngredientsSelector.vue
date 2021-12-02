@@ -17,14 +17,11 @@
             >
               <AppDrag
                 :transferData="ingredient"
-                :draggable="(ingredient.count || 0) < 3"
+                :draggable="ingredient.count < 3"
               >
                 <IngredientName :ingredient="ingredient" />
               </AppDrag>
-              <IngredientCounter
-                :ingredient="ingredient"
-                @updateIngredient="updateIngredient"
-              />
+              <IngredientCounter :ingredient="ingredient" />
             </li>
           </ul>
         </div>
@@ -36,20 +33,19 @@
 import IngredientCounter from "@/common/components/IngredientCounter.vue";
 import IngredientName from "@/common/components/IngredientName.vue";
 import AppDrag from "@/common/components/AppDrag";
+import { mapMutations, mapState } from "vuex";
+import { UPDATE_ENTITY } from "../../store/mutation-types";
 
 export default {
   name: "BuilderIngredientsSelector",
-  props: {
-    ingredients: {
-      type: Array,
-      required: true,
-    },
+  computed: {
+    ...mapState("Builder", ["ingredients"]),
   },
   components: { AppDrag, IngredientCounter, IngredientName },
   methods: {
-    updateIngredient(ingredient) {
-      this.$emit("updateIngredient", ingredient);
-    },
+    ...mapMutations("Builder", {
+      updateEntity: UPDATE_ENTITY,
+    }),
   },
 };
 </script>
