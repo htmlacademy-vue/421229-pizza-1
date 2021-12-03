@@ -3,17 +3,22 @@
     <button
       type="button"
       class="counter__button counter__button--disabled counter__button--minus"
-      :disabled="count === 0"
-      @click="changeCount(-1)"
+      :disabled="ingredient.count === 0"
+      @click="updateIngredientCount(-1)"
     >
       <span class="visually-hidden">Меньше</span>
     </button>
-    <input type="text" name="counter" class="counter__input" :value="count" />
+    <input
+      type="text"
+      name="counter"
+      class="counter__input"
+      :value="ingredient.count"
+    />
     <button
       type="button"
       class="counter__button counter__button--plus"
-      :disabled="count === 3"
-      @click="changeCount(1)"
+      :disabled="ingredient.count === 3"
+      @click="updateIngredientCount(1)"
     >
       <span class="visually-hidden">Больше</span>
     </button>
@@ -21,35 +26,45 @@
 </template>
 
 <script>
-import EventBus from "@/common/helpers/eventBus";
+import { mapMutations, mapState } from "vuex";
+import {
+  SET_DND_TRANSFER_DATA,
+  UPDATE_INGREDIENT,
+} from "../../store/mutation-types";
 
 export default {
   name: "IngredientCounter",
-  data() {
-    return {
-      count: this.ingredient.count || 0,
-      dndTransferData: Object,
-    };
-  },
   props: {
     ingredient: {
       type: Object,
       required: true,
     },
   },
+  computed: mapState(["dndTransferData"]),
   methods: {
-    changeCount(term) {
-      if (term > 0 ? this.count > 2 : this.count < 1) {
+    ...mapMutations("Builder", {
+      updateIngredient: UPDATE_INGREDIENT,
+    }),
+    ...mapMutations({
+      setDndTransferData: SET_DND_TRANSFER_DATA,
+    }),
+    updateIngredientCount(term) {
+      if (term > 0 ? this.ingredient.count > 2 : this.ingredient.count < 1) {
         return;
       }
-      this.count = this.count + term;
-      this.$emit("updateIngredient", { ...this.ingredient, count: this.count });
+      this.updateIngredient({
+        ...this.ingredient,
+        count: this.ingredient.count + term,
+      });
     },
   },
-  mounted() {
-    EventBus.$on("dndTransferData", (transferData) => {
-      transferData.id === this.ingredient.id && this.changeCount(1);
-    });
+  watch: {
+    dndTransferData() {
+      if (this.dndTransferData.id === this.ingredient.id) {
+        this.updateIngredientCount(1);
+        this.setDndTransferData();
+      }
+    },
   },
 };
 </script>

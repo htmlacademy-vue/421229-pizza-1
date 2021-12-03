@@ -5,7 +5,8 @@ export const addDoughTypes = (doughTypes) => {
     const current = DOUGH_TYPES.find(({ name }) => name === dough.name);
     return {
       ...dough,
-      type: current && current.type,
+      type: current?.type,
+      prepositional: current?.prepositional,
     };
   });
 };

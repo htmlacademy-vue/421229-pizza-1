@@ -16,7 +16,7 @@
             :value="size.type"
             class="visually-hidden"
             :checked="size.name === active.name"
-            @change="$emit('setActiveSize', size)"
+            @change="updateEntity({ entity: 'sizes', value: size })"
           />
           <span>{{ size.name }}</span>
         </label>
@@ -26,17 +26,21 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from "vuex";
+import { UPDATE_ENTITY } from "../../store/mutation-types";
+
 export default {
   name: "BuilderSizeSelector",
-  props: {
-    sizes: {
-      type: Array,
-      required: true,
-    },
-    active: {
-      type: Object,
-      required: false,
-    },
+  computed: {
+    ...mapState({
+      sizes: (state) => state["Builder"].sizes.list,
+      active: (state) => state["Builder"].sizes.active,
+    }),
+  },
+  methods: {
+    ...mapMutations("Builder", {
+      updateEntity: UPDATE_ENTITY,
+    }),
   },
 };
 </script>

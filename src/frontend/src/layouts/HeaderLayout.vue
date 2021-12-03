@@ -11,26 +11,19 @@
       </router-link>
     </div>
     <div class="header__cart">
-      <router-link to="/cart" class="logo">{{ price }} ₽</router-link>
+      <router-link to="/cart" class="logo">{{ totalSum }} ₽</router-link>
     </div>
     <component :is="authComponent" />
   </header>
 </template>
 <script>
+import { mapGetters, mapState } from "vuex";
+
 export default {
   name: "HeaderLayout",
-  data() {
-    return {
-      user: 1,
-    };
-  },
-  props: {
-    price: {
-      type: Number,
-      default: 0,
-    },
-  },
   computed: {
+    ...mapState("User", ["user"]),
+    ...mapGetters("Cart", ["totalSum"]),
     authComponent() {
       return () =>
         import(`@/components/${this.user ? "UserProfile" : "LoginLink"}.vue`);
