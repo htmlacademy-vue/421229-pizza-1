@@ -15,8 +15,8 @@
             name="dough"
             :value="dough.type"
             class="visually-hidden"
-            :checked="dough.name === active.name"
-            @change="updateEntity({ entity: 'doughTypes', value: dough })"
+            :checked="dough.id === activeDough.id"
+            @change="updateDough(dough.id)"
           />
           <b>{{ dough.name }}</b>
           <span>{{ dough.description }}</span>
@@ -27,21 +27,14 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
-import { UPDATE_ENTITY } from "../../store/mutation-types";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: "BuilderDoughSelector",
   computed: {
-    ...mapState({
-      doughTypes: (state) => state["Builder"].doughTypes.list,
-      active: (state) => state["Builder"].doughTypes.active,
-    }),
+    ...mapState({ doughTypes: (state) => state.dough.list }),
+    ...mapGetters("Builder", ["activeDough"]),
   },
-  methods: {
-    ...mapMutations("Builder", {
-      updateEntity: UPDATE_ENTITY,
-    }),
-  },
+  methods: mapActions("Builder", ["updateDough"]),
 };
 </script>

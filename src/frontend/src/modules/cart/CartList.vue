@@ -1,40 +1,23 @@
 <template>
   <ul class="cart-list sheet">
     <li class="cart-list__item" v-for="pizza in pizzas" :key="pizza.id">
-      <div class="product cart-list__product">
-        <img
-          src="@/assets/img/product.svg"
-          class="product__img"
-          width="56"
-          height="56"
-          :alt="pizza.name"
-        />
-        <div class="product__text">
-          <h2>{{ pizza.name }}</h2>
-          <ul>
-            <li>
-              {{ pizza.size.name }}, на {{ pizza.dough.prepositional }} тесте
-            </li>
-            <li>Соус: {{ pizza.sauce.name.toLowerCase() }}</li>
-            <li>
-              Начинка:
-              {{
-                pizza.ingredients.reduce((result, ingredient, index) => {
-                  return index === 0
-                    ? ingredient.name.toLowerCase()
-                    : `${result}, ${ingredient.name.toLowerCase()}`;
-                }, "")
-              }}
-            </li>
-          </ul>
-        </div>
-      </div>
+      <PizzaDescription
+        additionalClass="cart-list__product"
+        :pizza="getFullPizza(pizza)"
+      />
 
       <div class="counter cart-list__counter">
         <button
           type="button"
           class="counter__button counter__button--minus"
-          @click="changeCount({ entity: 'pizzas', value: pizza, term: -1 })"
+          @click="
+            changeCount({
+              entity: 'pizzas',
+              module: 'Cart',
+              value: pizza,
+              term: -1,
+            })
+          "
         >
           <span class="visually-hidden">Меньше</span>
         </button>
@@ -42,19 +25,26 @@
           type="text"
           name="counter"
           class="counter__input"
-          :value="pizza.count"
+          :value="pizza.quantity"
         />
         <button
           type="button"
           class="counter__button counter__button--plus counter__button--orange"
-          @click="changeCount({ entity: 'pizzas', value: pizza, term: 1 })"
+          @click="
+            changeCount({
+              entity: 'pizzas',
+              module: 'Cart',
+              value: pizza,
+              term: 1,
+            })
+          "
         >
           <span class="visually-hidden">Больше</span>
         </button>
       </div>
 
       <div class="cart-list__price">
-        <b>{{ pizza.count * pizza.price }} ₽</b>
+        <b>{{ pizza.quantity * pizza.price }} ₽</b>
       </div>
 
       <div class="cart-list__button">
@@ -70,14 +60,19 @@
   </ul>
 </template>
 <script>
-import { mapMutations, mapState } from "vuex";
-import { UPDATE_ENTITY } from "../../store/mutation-types";
+import { mapGetters, mapMutations, mapState } from "vuex";
+import { UPDATE_COUNT } from "../../store/mutation-types";
+import PizzaDescription from "../../components/PizzaDescription";
 
 export default {
   name: "CartList",
-  computed: mapState("Cart", ["pizzas"]),
+  computed: {
+    ...mapState("Cart", ["pizzas"]),
+    ...mapGetters("Builder", ["getFullPizza"]),
+  },
+  components: { PizzaDescription },
   methods: {
-    ...mapMutations("Cart", { changeCount: UPDATE_ENTITY }),
+    ...mapMutations({ changeCount: UPDATE_COUNT }),
     goEditPizza(pizza) {
       this.$router.push({ path: `/edit/${pizza.id}` });
     },

@@ -13,21 +13,21 @@
     <div class="header__cart">
       <router-link to="/cart" class="logo">{{ totalSum }} ₽</router-link>
     </div>
-    <component :is="authComponent" />
+    <UserProfile v-if="isAuthenticated" />
+    <LoginLink v-else />
   </header>
 </template>
 <script>
 import { mapGetters, mapState } from "vuex";
+import UserProfile from "../components/UserProfile";
+import LoginLink from "../components/LoginLink";
 
 export default {
   name: "HeaderLayout",
+  components: { LoginLink, UserProfile },
   computed: {
-    ...mapState("User", ["user"]),
+    ...mapState("User", ["isAuthenticated"]),
     ...mapGetters("Cart", ["totalSum"]),
-    authComponent() {
-      return () =>
-        import(`@/components/${this.user ? "UserProfile" : "LoginLink"}.vue`);
-    },
   },
 };
 </script>

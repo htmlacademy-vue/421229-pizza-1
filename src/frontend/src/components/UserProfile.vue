@@ -19,6 +19,16 @@
       </picture>
       <span>Василий Ложкин</span>
     </router-link>
-    <a href="#" class="header__logout"><span>Выйти</span></a>
+    <a href="#" @click.prevent="logout" class="header__logout">
+      <span>Выйти</span>
+    </a>
   </div>
 </template>
+<script>
+import { mapActions } from "vuex";
+
+export default {
+  name: "UserProfile",
+  methods: mapActions("User", ["logout"]),
+};
+</script>

@@ -13,9 +13,7 @@
     </div>
 
     <div class="footer__submit">
-      <router-link to="/order_popup">
-        <button type="submit" class="button">Оформить заказ</button>
-      </router-link>
+      <button type="submit" class="button">Оформить заказ</button>
     </div>
   </section>
 </template>

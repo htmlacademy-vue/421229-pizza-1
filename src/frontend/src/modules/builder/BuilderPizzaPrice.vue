@@ -12,24 +12,23 @@
   </div>
 </template>
 <script>
-import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
-import { RESET_ACTIVE } from "../../store/mutation-types";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: "BuilderPizzaPrice",
   computed: {
     ...mapGetters("Builder", ["activeIngredients", "totalPrice"]),
-    ...mapState("Builder", ["name"]),
+    ...mapState("Builder", ["pizza"]),
     disabled() {
-      return !(this.name && this.activeIngredients.length);
+      return !(this.pizza.name && this.activeIngredients.length);
     },
   },
   methods: {
     ...mapActions("Cart", ["setPizza"]),
-    ...mapMutations("Builder", { reset: RESET_ACTIVE }),
+    ...mapActions("Builder", ["resetPizza"]),
     savePizza() {
       this.setPizza();
-      this.reset();
+      this.resetPizza();
     },
   },
 };

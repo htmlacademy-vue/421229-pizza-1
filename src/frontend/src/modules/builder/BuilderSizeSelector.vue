@@ -8,15 +8,15 @@
           v-for="size in sizes"
           class="diameter__input"
           :class="`diameter__input--${size.type}`"
-          :key="size.type"
+          :key="size.id"
         >
           <input
             type="radio"
             name="diameter"
             :value="size.type"
             class="visually-hidden"
-            :checked="size.name === active.name"
-            @change="updateEntity({ entity: 'sizes', value: size })"
+            :checked="size.id === activeSize.id"
+            @change="updateSize(size.id)"
           />
           <span>{{ size.name }}</span>
         </label>
@@ -26,21 +26,14 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
-import { UPDATE_ENTITY } from "../../store/mutation-types";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: "BuilderSizeSelector",
   computed: {
-    ...mapState({
-      sizes: (state) => state["Builder"].sizes.list,
-      active: (state) => state["Builder"].sizes.active,
-    }),
+    ...mapState({ sizes: (state) => state.sizes.list }),
+    ...mapGetters("Builder", ["activeSize"]),
   },
-  methods: {
-    ...mapMutations("Builder", {
-      updateEntity: UPDATE_ENTITY,
-    }),
-  },
+  methods: { ...mapActions("Builder", ["updateSize"]) },
 };
 </script>

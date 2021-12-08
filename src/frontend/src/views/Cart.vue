@@ -19,8 +19,5 @@ export default {
   name: "Cart",
   components: { CartContent, CartEmpty },
   computed: mapState("Cart", ["pizzas"]),
-  created() {
-    this.$store.dispatch("Cart/init");
-  },
 };
 </script>
