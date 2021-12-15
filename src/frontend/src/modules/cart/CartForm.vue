@@ -54,6 +54,7 @@
                 updateField({ field: 'street', value: $event.target.value })
               "
               name="street"
+              :readonly="addressForm.id"
               :value="addressForm.street"
             />
           </label>
@@ -66,6 +67,7 @@
               type="text"
               name="house"
               :value="addressForm.building"
+              :readonly="addressForm.id"
               @change="
                 updateField({ field: 'building', value: $event.target.value })
               "
@@ -80,6 +82,7 @@
               type="text"
               name="apartment"
               :value="addressForm.flat"
+              :readonly="addressForm.id"
               @change="
                 updateField({ field: 'flat', value: $event.target.value })
               "

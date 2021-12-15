@@ -15,7 +15,9 @@ const routes = [
         path: "/edit/:id",
         name: "PizzaEdit",
         component: () => import("../views/Index.vue"),
-        middlewares: [auth],
+        meta: {
+          middlewares: [auth],
+        },
       },
     ],
   },

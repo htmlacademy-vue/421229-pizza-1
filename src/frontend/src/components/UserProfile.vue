@@ -19,16 +19,16 @@
       </picture>
       <span>Василий Ложкин</span>
     </router-link>
-    <a href="#" @click.prevent="logout" class="header__logout">
+    <a href="#" @click.prevent="$logout" class="header__logout">
       <span>Выйти</span>
     </a>
   </div>
 </template>
 <script>
-import { mapActions } from "vuex";
+import logout from "@/common/mixins/logout";
 
 export default {
   name: "UserProfile",
-  methods: mapActions("User", ["logout"]),
+  mixins: [logout],
 };
 </script>

@@ -53,5 +53,8 @@ export default {
       return window.location.href.includes(this.$route.path);
     },
   },
+  created() {
+    this.$store.dispatch("Addresses/fetchAddresses");
+  },
 };
 </script>
