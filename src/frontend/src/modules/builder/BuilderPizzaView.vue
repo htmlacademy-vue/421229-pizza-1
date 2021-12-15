@@ -6,7 +6,8 @@
         type="text"
         name="pizza_name"
         placeholder="Введите название пиццы"
-        v-model="inputValue"
+        :value="pizza.name"
+        @input="setValue"
       />
     </label>
 
@@ -32,54 +33,40 @@
 <script>
 import BuilderPizzaPrice from "@/modules/builder/BuilderPizzaPrice.vue";
 import AppDrop from "@/common/components/AppDrop.vue";
-import { mapGetters, mapMutations, mapState } from "vuex";
-import { EDIT_PIZZA, UPDATE_ENTITY } from "../../store/mutation-types";
+import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
+import { UPDATE_ENTITY } from "../../store/mutation-types";
 
 export default {
   name: "BuilderPizzaView",
   data() {
     return {
       timeout: null,
-      debouncedValue: this.name,
+      debouncedValue: "",
     };
   },
   computed: {
-    ...mapState({
-      sauce: (state) => state["Builder"].sauces.active.value,
-      dough: (state) => state["Builder"].doughTypes.active.type,
-      name: (state) => state["Builder"].name,
-      price: (state) => state["Builder"].price,
-    }),
     ...mapState("Cart", ["pizzas"]),
+    ...mapState(["ingredients"]),
+    ...mapGetters("Builder", [
+      "activeIngredients",
+      "getFullPizza",
+      "pizza",
+      "activeSauce",
+      "activeDough",
+    ]),
     modifier() {
-      return `pizza--foundation--${this.dough === "large" ? "big" : "small"}-${
-        this.sauce
-      }`;
-    },
-    ...mapGetters("Builder", ["activeIngredients"]),
-    inputValue: {
-      get() {
-        return this.name;
-      },
-      set(value) {
-        if (this.timeout) {
-          clearTimeout(this.timeout);
-        }
-        this.timeout = setTimeout(() => {
-          this.debouncedValue = value;
-          this.updateEntity({ entity: "name", value });
-        }, 400);
-      },
+      return `pizza--foundation--${
+        this.activeDough?.type === "large" ? "big" : "small"
+      }-${this.activeSauce?.value}`;
     },
   },
   components: { BuilderPizzaPrice, AppDrop },
   methods: {
-    ...mapMutations("Builder", {
-      updateEntity: UPDATE_ENTITY,
-      editPizza: EDIT_PIZZA,
-    }),
-    ingredientsModifier(ingredient) {
-      switch (ingredient.count) {
+    ...mapMutations("Builder", { updateEntity: UPDATE_ENTITY }),
+    ...mapActions("Builder", ["editPizza"]),
+    ingredientsModifier(activeIngredient) {
+      const ingredient = this.ingredients[activeIngredient.id];
+      switch (activeIngredient.quantity) {
         case 1:
           return `pizza__filling--${ingredient.nameLat}`;
         case 2:
@@ -90,10 +77,19 @@ export default {
           return "";
       }
     },
+    setValue($event) {
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+      }
+      this.timeout = setTimeout(() => {
+        this.debouncedValue = $event.target.value;
+        this.updateEntity({ entity: "name", value: this.debouncedValue });
+      }, 400);
+    },
   },
   created() {
     const id = this.$route.params.id;
-    const pizza = this.pizzas.find((pizza) => pizza.id === id);
+    const pizza = this.pizzas.find((pizza) => +pizza.id === +id);
     pizza && this.editPizza(pizza);
   },
 };

@@ -29,7 +29,7 @@
               type="text"
               name="counter"
               class="counter__input"
-              :value="miscItem.count"
+              :value="miscItem.quantity"
             />
             <button
               type="button"
@@ -43,7 +43,7 @@
           </div>
 
           <div class="additional-list__price">
-            <b>{{ miscItem.price * miscItem.count }} ₽</b>
+            <b>{{ miscItem.price * miscItem.quantity }} ₽</b>
           </div>
         </div>
       </li>
@@ -52,15 +52,13 @@
 </template>
 <script>
 import { mapMutations, mapState } from "vuex";
-import { UPDATE_ENTITY } from "../../store/mutation-types";
+import { UPDATE_COUNT } from "../../store/mutation-types";
 
 export default {
   name: "CartMisc",
-  computed: mapState("Cart", ["misc"]),
+  computed: mapState(["misc"]),
   methods: {
-    ...mapMutations("Cart", {
-      addMisc: UPDATE_ENTITY,
-    }),
+    ...mapMutations({ addMisc: UPDATE_COUNT }),
   },
 };
 </script>

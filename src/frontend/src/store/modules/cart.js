@@ -1,22 +1,6 @@
-import {
-  UPDATE_ENTITY,
-  SET_ENTITY,
-  SET_PIZZA,
-  RESET_CART,
-} from "../mutation-types";
-import { formatMisc } from "../../common/helpers/formatMisc";
-import misc from "@/static/misc.json";
+import { SET_ENTITY, SET_PIZZA, RESET_CART } from "../mutation-types";
 
 const actions = {
-  async init({ dispatch }) {
-    dispatch("fetchMisc");
-  },
-  fetchMisc({ commit }) {
-    commit(SET_ENTITY, {
-      entity: "misc",
-      value: formatMisc(misc),
-    });
-  },
   setPizza({ commit, rootGetters }) {
     commit(SET_PIZZA, rootGetters["Builder/createdPizza"]);
   },
@@ -26,18 +10,20 @@ const actions = {
 };
 
 const getters = {
-  totalSum: ({ misc, pizzas }) => {
-    return pizzas.length
+  totalSum: ({ pizzas }, getters, rootState) =>
+    pizzas.length
       ? pizzas
-          .concat(misc)
-          .reduce((sum, current) => sum + current.price * current.count, 0)
-      : 0;
-  },
+          .concat(rootState.misc)
+          .reduce((sum, current) => sum + current.price * current.quantity, 0)
+      : 0,
+  getOrderCart: ({ pizzas }, getters, rootState) => ({
+    misc: rootState.misc,
+    pizzas,
+  }),
 };
 
 const getInitialState = () => ({
   pizzas: [],
-  misc: [],
   sum: 0,
 });
 
@@ -57,21 +43,6 @@ const mutations = {
       ];
     } else {
       state.pizzas.push(pizza);
-    }
-  },
-  [UPDATE_ENTITY](state, { entity, value, term }) {
-    const count = value.count + term;
-
-    if (count <= 0) {
-      state[entity] = state[entity].filter(
-        (stateValue) => stateValue.id !== value.id
-      );
-    } else {
-      state[entity] = state[entity].map((stateValue) => {
-        return stateValue.id === value.id
-          ? { ...value, count: value.count + term }
-          : stateValue;
-      });
     }
   },
   [RESET_CART](state) {

@@ -1,184 +1,141 @@
-import { dough, sizes, ingredients, sauces } from "@/static/pizza.json";
-import { addDoughTypes } from "@/common/helpers/addDoughTypes";
-import { addSizeTypes } from "@/common/helpers/addSizeTypes";
-import { formatIngredients } from "@/common/helpers/formatIngredients";
-import { addSauceValues } from "@/common/helpers/addSauceValues";
 import {
   SET_ENTITY,
   UPDATE_ENTITY,
   UPDATE_INGREDIENT,
   EDIT_PIZZA,
-  RESET_ACTIVE,
 } from "@/store/mutation-types";
 import { uniqueId } from "lodash";
 
 const actions = {
-  async init({ dispatch }) {
-    dispatch("fetchDoughTypes");
-    dispatch("fetchSizes");
-    dispatch("fetchIngredients");
-    dispatch("fetchSauces");
-  },
-  fetchDoughTypes({ commit }) {
-    const doughTypes = addDoughTypes(dough);
-
-    commit(SET_ENTITY, {
-      module: null,
-      entity: "doughTypes",
-      value: {
-        list: doughTypes,
-        active: doughTypes[0],
-      },
-    });
-  },
-  fetchSizes({ commit }) {
-    const list = addSizeTypes(sizes);
-
-    commit(SET_ENTITY, {
-      module: null,
-      entity: "sizes",
-      value: {
-        list,
-        active: list[0],
-      },
-    });
-  },
-  fetchIngredients({ commit }) {
-    commit(SET_ENTITY, {
-      module: null,
-      entity: "ingredients",
-      value: formatIngredients(ingredients),
-    });
-  },
-  fetchSauces({ commit }) {
-    const list = addSauceValues(sauces);
-
-    commit(SET_ENTITY, {
-      module: null,
-      entity: "sauces",
-      value: {
-        list,
-        active: list[0],
-      },
-    });
-  },
   editPizza({ commit }, pizza) {
-    commit(EDIT_PIZZA, {
-      module: null,
-      pizza,
-    });
+    commit(EDIT_PIZZA, { pizza });
+  },
+  updateDough({ commit }, doughId) {
+    commit(UPDATE_ENTITY, { entity: "doughId", value: doughId });
+  },
+  updateSize({ commit }, sizeId) {
+    commit(UPDATE_ENTITY, { entity: "sizeId", value: sizeId });
+  },
+  updateSauce({ commit }, sauceId) {
+    commit(UPDATE_ENTITY, { entity: "sauceId", value: sauceId });
+  },
+  resetPizza({ commit, rootState }) {
+    commit(
+      SET_ENTITY,
+      {
+        entity: "pizza",
+        module: "Builder",
+        value: {
+          doughId: rootState["dough"].list[0].id,
+          name: "",
+          ingredients: [],
+          sizeId: rootState["sizes"].list[0].id,
+          sauceId: rootState["sauce"].list[0].id,
+          price: 0,
+          id: "",
+          quantity: 1,
+        },
+      },
+      {
+        root: true,
+      }
+    );
   },
 };
 
 const mutations = {
-  [SET_ENTITY](state, { entity, value }) {
-    const { list, active } = value;
-    if (list) {
-      state[entity].list = list;
-      state[entity].active = active;
-    } else {
-      state[entity] = value;
-    }
-  },
   [UPDATE_ENTITY](state, { entity, value }) {
-    if (state[entity].list) {
-      state[entity].active = value;
-    } else {
-      state[entity] = value;
-    }
+    state.pizza[entity] = value;
   },
   [UPDATE_INGREDIENT](state, ingredient) {
-    state.ingredients = state.ingredients.map((item) =>
-      item.id !== ingredient.id ? item : ingredient
+    const index = state.pizza.ingredients.findIndex(
+      (stateIngredient) => stateIngredient.id === ingredient.id
     );
+    if (~index) {
+      state.pizza.ingredients = [
+        ...state.pizza.ingredients.slice(0, index),
+        ingredient,
+        ...state.pizza.ingredients.slice(index + 1),
+      ];
+    } else {
+      state.pizza.ingredients.push(ingredient);
+    }
   },
-  [EDIT_PIZZA](
-    state,
-    { dough, name, ingredients, size, sauce, price, id, count }
-  ) {
-    state.doughTypes.active = dough;
-    state.name = name;
-    state.ingredients = state.ingredients.map((stateIngredient) => {
-      const activeIngredient = ingredients.find(
-        ({ id }) => id === stateIngredient.id
-      );
-
-      return activeIngredient
-        ? { ...stateIngredient, count: activeIngredient.count }
-        : stateIngredient;
-    });
-    state.sizes.active = size;
-    state.sauces.active = sauce;
-    state.price = price;
-    state.id = id;
-    state.count = count;
-  },
-  [RESET_ACTIVE](state) {
-    state.doughTypes.active = state.doughTypes.list[0];
-    state.name = "";
-    state.ingredients = state.ingredients.map((stateIngredient) => ({
-      ...stateIngredient,
-      count: 0,
-    }));
-    state.sizes.active = state.sizes.list[0];
-    state.sauces.active = state.sauces.list[0];
-    state.price = 0;
-    state.id = "";
-    state.count = 1;
+  [EDIT_PIZZA](state, { pizza }) {
+    state.pizza = Object.assign({}, state.pizza, pizza);
   },
 };
 
 const getters = {
-  activeIngredients: (state) => state.ingredients.filter(({ count }) => count),
+  activeSize: ({ pizza }, getters, rootState) =>
+    rootState["sizes"].map[pizza.sizeId] || {},
+  activeDough: ({ pizza }, getters, rootState) =>
+    rootState["dough"].map[pizza.doughId] || {},
+  activeSauce: ({ pizza }, getters, rootState) =>
+    rootState["sauce"].map[pizza.sauceId] || {},
+  pizza: ({ pizza }) => pizza,
+  activeIngredients: ({ pizza }) => pizza.ingredients,
   createdPizza: (state, getters) => ({
-    name: state.name,
+    name: state.pizza.name,
     price: getters.totalPrice,
-    ingredients: state.ingredients.filter(({ count }) => count),
-    dough: state.doughTypes.active,
-    size: state.sizes.active,
-    sauce: state.sauces.active,
-    count: state.count,
-    id: state.id || uniqueId(),
+    ingredients: getters.activeIngredients,
+    doughId: state.pizza.doughId,
+    sizeId: state.pizza.sizeId,
+    sauceId: state.pizza.sauceId,
+    quantity: state.pizza.quantity,
+    id: state.pizza.id || uniqueId(),
   }),
-  totalPrice: ({
-    ingredients = {},
-    doughTypes = {},
-    sauces = {},
-    sizes = {},
-  }) => {
-    const ingredientsSum = ingredients
-      .filter(({ count }) => count)
-      .reduce((sum, current) => {
-        return sum + current.count * current.price;
-      }, 0);
-
+  ingredientsSum: (state, getters, rootState) => (pizza) => {
+    return pizza.ingredients.reduce((sum, current) => {
+      const ingredient = rootState.ingredients[current.ingredientId];
+      return sum + current.quantity * ingredient?.price;
+    }, 0);
+  },
+  totalPrice: ({ pizza }, getters, rootState) => {
+    const ingredientsSum = getters.activeIngredients.reduce((sum, current) => {
+      return sum + current.quantity * current.price;
+    }, 0);
     return (
-      (doughTypes.active.price + sauces.active.price + ingredientsSum) *
-      sizes.active.multiplier
+      (rootState["dough"].map[pizza.doughId]?.price +
+        rootState["sauce"].map[pizza.sauceId]?.price +
+        ingredientsSum) *
+        rootState["sizes"].map[pizza.sizeId]?.multiplier || 0
     );
   },
+  getPizzaPrice: (state, getters, rootState) => (pizza) =>
+    (rootState["dough"].map[pizza.doughId]?.price +
+      rootState["sauce"].map[pizza.sauceId]?.price +
+      getters.ingredientsSum(pizza)) *
+      rootState["sizes"].map[pizza.sizeId]?.multiplier || 0,
+  getFullPizza:
+    (state, getters, rootState) =>
+    ({ id, name, quantity, sauceId, doughId, sizeId, ingredients }) => ({
+      id,
+      name,
+      quantity,
+      sauce: rootState["sauce"].map[sauceId],
+      dough: rootState["dough"].map[doughId],
+      size: rootState["sizes"].map[sizeId],
+      ingredients: ingredients.reduce((result, { quantity, id }) => {
+        result.push({ ...rootState["ingredients"][id], quantity });
+        return result;
+      }, []),
+    }),
 };
 
 export default {
   namespaced: true,
   state: {
-    doughTypes: {
-      list: [],
-      active: {},
+    pizza: {
+      name: "",
+      price: 0,
+      ingredients: [],
+      doughId: null,
+      sizeId: null,
+      sauceId: null,
+      quantity: 1,
+      id: uniqueId(),
     },
-    sizes: {
-      list: [],
-      active: {},
-    },
-    ingredients: [],
-    sauces: {
-      list: [],
-      active: {},
-    },
-    price: 0,
-    count: 1,
-    name: "",
-    id: "",
   },
   actions,
   mutations,

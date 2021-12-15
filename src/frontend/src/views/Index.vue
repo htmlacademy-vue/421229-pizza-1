@@ -13,14 +13,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { mapMutations } from "vuex";
 import BuilderDoughSelector from "@/modules/builder/BuilderDoughSelector.vue";
 import BuilderSizeSelector from "@/modules/builder/BuilderSizeSelector.vue";
 import BuilderIngredientsSelector from "@/modules/builder/BuilderIngredientsSelector.vue";
 import BuilderPizzaView from "@/modules/builder/BuilderPizzaView.vue";
 import BuilderSauceSelector from "@/modules/builder/BuilderSauceSelector.vue";
-import { UPDATE_ENTITY } from "../store/mutation-types";
 
 export default {
   name: "IndexHome",
@@ -30,15 +27,6 @@ export default {
     BuilderIngredientsSelector,
     BuilderPizzaView,
     BuilderSauceSelector,
-  },
-  computed: mapState(["Builder"]),
-  methods: {
-    ...mapMutations("Builder", {
-      updateEntity: UPDATE_ENTITY,
-    }),
-  },
-  created() {
-    this.$store.dispatch("Builder/init");
   },
 };
 </script>

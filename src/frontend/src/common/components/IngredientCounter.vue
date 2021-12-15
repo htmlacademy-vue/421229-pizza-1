@@ -3,7 +3,7 @@
     <button
       type="button"
       class="counter__button counter__button--disabled counter__button--minus"
-      :disabled="ingredient.count === 0"
+      :disabled="ingredient.quantity === 0"
       @click="updateIngredientCount(-1)"
     >
       <span class="visually-hidden">Меньше</span>
@@ -12,12 +12,12 @@
       type="text"
       name="counter"
       class="counter__input"
-      :value="ingredient.count"
+      :value="ingredient.quantity"
     />
     <button
       type="button"
       class="counter__button counter__button--plus"
-      :disabled="ingredient.count === 3"
+      :disabled="ingredient.quantity === 3"
       @click="updateIngredientCount(1)"
     >
       <span class="visually-hidden">Больше</span>
@@ -42,19 +42,17 @@ export default {
   },
   computed: mapState(["dndTransferData"]),
   methods: {
-    ...mapMutations("Builder", {
-      updateIngredient: UPDATE_INGREDIENT,
-    }),
-    ...mapMutations({
-      setDndTransferData: SET_DND_TRANSFER_DATA,
-    }),
+    ...mapMutations("Builder", { updateIngredient: UPDATE_INGREDIENT }),
+    ...mapMutations({ setDndTransferData: SET_DND_TRANSFER_DATA }),
     updateIngredientCount(term) {
-      if (term > 0 ? this.ingredient.count > 2 : this.ingredient.count < 1) {
+      if (
+        term > 0 ? this.ingredient.quantity > 2 : this.ingredient.quantity < 1
+      ) {
         return;
       }
       this.updateIngredient({
         ...this.ingredient,
-        count: this.ingredient.count + term,
+        quantity: this.ingredient.quantity + term,
       });
     },
   },
