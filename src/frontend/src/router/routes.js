@@ -58,14 +58,6 @@ const routes = [
       middlewares: [isLoggedIn],
     },
   },
-  {
-    path: "/order_popup",
-    name: "OrderPopup",
-    component: () => import("../modules/orders/OrderPopup"),
-    meta: {
-      layout: "ModalLayout",
-    },
-  },
 ];
 
 const router = new VueRouter({

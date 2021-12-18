@@ -13,7 +13,7 @@
   </div>
 </template>
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "OrderPopup",
@@ -21,14 +21,15 @@ export default {
     ...mapState("User", ["user"]),
   },
   methods: {
-    ...mapActions("Cart", ["resetCart"]),
-    closePopup() {
-      this.resetCart();
-      if (this.user) {
-        this.$router.push("/orders");
-      } else {
-        this.$router.push("/");
-      }
+    async closePopup() {
+      this.$emit("closePopup");
+      setTimeout(() => {
+        if (this.user) {
+          this.$router.push("/orders");
+        } else {
+          this.$router.push("/");
+        }
+      }, 400);
     },
   },
 };

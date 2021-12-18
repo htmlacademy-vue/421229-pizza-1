@@ -15,12 +15,14 @@
       <div class="pizza" :class="modifier">
         <AppDrop>
           <div class="pizza__wrapper">
-            <div
-              v-for="ingredient in activeIngredients"
-              :key="ingredient.id"
-              class="pizza__filling"
-              :class="ingredientsModifier(ingredient)"
-            ></div>
+            <transition-group name="drop" tag="div">
+              <div
+                v-for="ingredient in activeIngredients"
+                :key="ingredient.id"
+                class="pizza__filling"
+                :class="ingredientsModifier(ingredient)"
+              ></div>
+            </transition-group>
           </div>
         </AppDrop>
       </div>
@@ -94,3 +96,14 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.drop-enter-active {
+  transition: transform 400ms;
+}
+.drop-enter {
+  transform: scale(1.3);
+}
+.drop-enter-to {
+  transform: scale(1);
+}
+</style>
