@@ -1,7 +1,9 @@
 <template>
-  <AppLayout>
-    <router-view />
-  </AppLayout>
+  <transition name="slide" mode="out-in">
+    <AppLayout>
+      <router-view />
+    </AppLayout>
+  </transition>
 </template>
 
 <script>
@@ -22,4 +24,13 @@ export default {
 
 <style lang="scss">
 @import "~@/assets/scss/app";
+.slide-enter-active {
+  transition: transform 300ms ease-in-out;
+}
+.slide-enter {
+  transform: translateX(-100%);
+}
+.slide-enter-to {
+  transform: translateX(0);
+}
 </style>
