@@ -124,24 +124,26 @@ const getters = {
   ingredients: ({ ingredients }) => Object.values(ingredients),
 };
 
-export default new Vuex.Store({
-  state: {
-    dndTransferData: {},
-    sauce: {
-      list: [],
-      map: {},
-    },
-    ingredients: {},
-    sizes: {
-      list: [],
-      map: {},
-    },
-    dough: {
-      list: [],
-      map: {},
-    },
-    misc: [],
+export const getInitialState = () => ({
+  dndTransferData: {},
+  sauce: {
+    list: [],
+    map: {},
   },
+  ingredients: {},
+  sizes: {
+    list: [],
+    map: {},
+  },
+  dough: {
+    list: [],
+    map: {},
+  },
+  misc: [],
+});
+
+export default new Vuex.Store({
+  state: getInitialState(),
   plugins: [VuexPlugins],
   getters,
   mutations,
