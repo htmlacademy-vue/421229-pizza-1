@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div data-test="profile-layout">
     <HeaderLayout />
     <main class="layout">
       <div class="layout__sidebar sidebar">
@@ -42,15 +42,10 @@ import HeaderLayout from "@/layouts/HeaderLayout.vue";
 
 export default {
   name: "ProfileLayout",
-  components: {
-    HeaderLayout,
-  },
+  components: { HeaderLayout },
   computed: {
     title() {
       return this.$route.meta.title || "";
-    },
-    isActive() {
-      return window.location.href.includes(this.$route.path);
     },
   },
   created() {

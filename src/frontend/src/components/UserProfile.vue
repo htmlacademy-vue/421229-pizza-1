@@ -4,20 +4,14 @@
       <picture>
         <source
           type="image/webp"
-          srcset="
-            @/assets/img/users/user5.webp    1x,
-            @/assets/img/users/user5@2x.webp 2x
-          "
+          :srcset="`
+            ${avatar} 1x,
+            ${avatar} 2x
+          `"
         />
-        <img
-          src="img/users/user5.jpg"
-          srcset="@/assets/img/users/user5@2x.jpg"
-          alt="Василий Ложкин"
-          width="32"
-          height="32"
-        />
+        <img :src="avatar" :alt="name" width="32" height="32" />
       </picture>
-      <span>Василий Ложкин</span>
+      <span>{{ name }}</span>
     </router-link>
     <a href="#" @click.prevent="$logout" class="header__logout">
       <span>Выйти</span>
@@ -26,9 +20,16 @@
 </template>
 <script>
 import logout from "@/common/mixins/logout";
+import { mapState } from "vuex";
 
 export default {
   name: "UserProfile",
   mixins: [logout],
+  computed: {
+    ...mapState("User", {
+      name: (state) => state.user?.name,
+      avatar: (state) => state.user?.avatar,
+    }),
+  },
 };
 </script>

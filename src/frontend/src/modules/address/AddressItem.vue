@@ -21,8 +21,8 @@
           </button>
         </div>
       </div>
-      <p>{{ formattedAddress }}</p>
-      <small>{{ address.comment }}</small>
+      <p data-test="formatted-address">{{ formattedAddress }}</p>
+      <small data-test="address-comment">{{ address.comment }}</small>
     </div>
   </div>
 </template>

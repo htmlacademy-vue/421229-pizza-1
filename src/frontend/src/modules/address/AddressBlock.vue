@@ -33,7 +33,7 @@ import AddressItem from "./AddressItem";
 import AddressForm from "./AddressForm";
 import { mapState } from "vuex";
 
-const getDefaultAddress = () => ({
+export const getDefaultAddress = () => ({
   name: "",
   street: "",
   building: "",
@@ -59,14 +59,7 @@ export default {
   methods: {
     addNewAddress() {
       this.showForm = true;
-      this.address = {
-        name: "",
-        street: "",
-        building: "",
-        flat: "",
-        comment: "",
-        id: null,
-      };
+      this.address = getDefaultAddress();
     },
     editAddress(id) {
       this.address = this.addresses.find((address) => address.id === id);

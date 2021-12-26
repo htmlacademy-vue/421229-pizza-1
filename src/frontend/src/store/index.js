@@ -70,7 +70,7 @@ const actions = {
   },
 };
 
-const mutations = {
+export const mutations = {
   [SET_DND_TRANSFER_DATA](state, transferData) {
     state.dndTransferData = transferData || {};
   },

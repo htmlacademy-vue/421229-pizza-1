@@ -77,7 +77,8 @@
 
         <div class="address-form__buttons">
           <button
-            v-show="isEdited"
+            v-if="isEdited"
+            data-test="delete-button"
             type="button"
             class="button button--transparent"
             @click="removeAddress"
@@ -134,7 +135,7 @@ export default {
         id: this.address.id,
       };
       this.$emit("closeForm");
-      address.id ? this.updateAddress(address) : this.postAddress(address);
+      this.isEdited ? this.updateAddress(address) : this.postAddress(address);
     },
     removeAddress() {
       this.$emit("closeForm");

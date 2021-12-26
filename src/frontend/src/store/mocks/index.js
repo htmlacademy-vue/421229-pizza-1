@@ -7,7 +7,7 @@ import Vuex from "vuex";
 import VuexPlugins from "@/plugins/vuexPlugins";
 import { getInitialState } from "../index";
 
-export const generateMockStore = (actions) => {
+export const generateMockStore = (actions, getters) => {
   const modulesCopy = cloneDeep(modules);
   if (actions) {
     Object.entries(actions).forEach(([module, actions]) => {
@@ -20,5 +20,6 @@ export const generateMockStore = (actions) => {
     mutations,
     modules: modulesCopy,
     plugins: [VuexPlugins],
+    getters,
   });
 };
