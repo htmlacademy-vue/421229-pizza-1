@@ -37,10 +37,15 @@ const actions = {
       userId: rootState.User.user.id,
     });
 
-    commit(ADD_ENTITY, {
-      entity: "addresses",
-      value: createdAddress,
-    });
+    commit(
+      ADD_ENTITY,
+      {
+        entity: "addresses",
+        module: "Addresses",
+        value: createdAddress,
+      },
+      { root: true }
+    );
   },
   setReceiptType({ commit, state, dispatch }, type) {
     commit(
@@ -112,12 +117,6 @@ const actions = {
 };
 
 const mutations = {
-  [SET_ENTITY](state, { entity, value }) {
-    state[entity] = value;
-  },
-  [ADD_ENTITY](state, { entity, value }) {
-    state[entity] = [...state[entity], value];
-  },
   [UPDATE_ADDRESS_FIELD](state, { field, value }) {
     state.addressForm = {
       ...state.addressForm,

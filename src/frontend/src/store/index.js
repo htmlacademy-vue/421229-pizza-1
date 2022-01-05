@@ -8,6 +8,7 @@ import {
   UPDATE_ALL_MISC,
   UPDATE_ENTITY,
   DELETE_ENTITY,
+  ADD_ENTITY,
 } from "./mutation-types";
 import VuexPlugins from "../plugins/vuexPlugins";
 import { getIdToItemMap } from "../common/utils/getIdToItemMap";
@@ -82,6 +83,12 @@ export const mutations = {
     } else {
       (module ? state[module] : state)[entity] = value;
     }
+  },
+  [ADD_ENTITY](state, { module, entity, value }) {
+    (module ? state[module] : state)[entity] = [
+      ...(module ? state[module] : state)[entity],
+      value,
+    ];
   },
   [DELETE_ENTITY](state, { entity, module, entityId }) {
     (module ? state[module] : state)[entity] = (module ? state[module] : state)[

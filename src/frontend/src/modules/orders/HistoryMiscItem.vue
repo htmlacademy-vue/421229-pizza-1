@@ -3,7 +3,7 @@
     <img :src="misc.image" width="20" height="30" :alt="misc.name" />
     <p>
       <span>{{ misc.name }}</span>
-      <b>{{ sum }} ₽</b>
+      <b data-test="sum">{{ sum }} ₽</b>
     </p>
   </li>
 </template>

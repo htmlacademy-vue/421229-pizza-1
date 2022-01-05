@@ -1,4 +1,4 @@
-import { SET_ENTITY, ADD_ENTITY } from "../mutation-types";
+import { SET_ENTITY } from "../mutation-types";
 
 const actions = {
   async login({ dispatch }, credentials) {
@@ -14,28 +14,39 @@ const actions = {
     }
     this.$jwt.destroyToken();
     this.$api.auth.setAuthHeader();
-    commit(SET_ENTITY, { entity: "isAuthenticated", value: false });
-    commit(SET_ENTITY, { entity: "user", value: null });
+    commit(
+      SET_ENTITY,
+      { module: "User", entity: "isAuthenticated", value: false },
+      { root: true }
+    );
+    commit(
+      SET_ENTITY,
+      { module: "User", entity: "user", value: null },
+      { root: true }
+    );
   },
 
   async getMe({ commit, dispatch }) {
     try {
       const data = await this.$api.auth.getMe();
-      commit(SET_ENTITY, { entity: "isAuthenticated", value: true });
-      commit(SET_ENTITY, { entity: "user", value: data });
-      commit(SET_ENTITY, { entity: "phone", value: data.phone });
+      commit(
+        SET_ENTITY,
+        { module: "User", entity: "isAuthenticated", value: true },
+        { root: true }
+      );
+      commit(
+        SET_ENTITY,
+        { module: "User", entity: "user", value: data },
+        { root: true }
+      );
+      commit(
+        SET_ENTITY,
+        { module: "User", entity: "phone", value: data.phone },
+        { root: true }
+      );
     } catch {
       dispatch("logout", false);
     }
-  },
-};
-
-const mutations = {
-  [SET_ENTITY](state, { entity, value }) {
-    state[entity] = value;
-  },
-  [ADD_ENTITY](state, { entity, value }) {
-    state[entity] = [...state[entity], value];
   },
 };
 
@@ -67,6 +78,5 @@ export default {
     phone: "",
   },
   actions,
-  mutations,
   getters,
 };

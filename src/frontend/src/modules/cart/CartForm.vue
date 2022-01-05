@@ -36,7 +36,13 @@
           name="tel"
           placeholder="+7 999-999-99-99"
           :value="userPhone"
-          @change="setEntity({ entity: 'phone', value: $event.target.value })"
+          @change="
+            setEntity({
+              entity: 'phone',
+              module: 'User',
+              value: $event.target.value,
+            })
+          "
         />
       </label>
 
@@ -98,7 +104,7 @@ import { mapActions, mapMutations, mapState } from "vuex";
 import { SET_ENTITY, UPDATE_ADDRESS_FIELD } from "../../store/mutation-types";
 
 export default {
-  name: "HeaderLayout",
+  name: "CartForm",
   computed: {
     ...mapState("User", ["user"]),
     ...mapState("Addresses", ["addresses", "addressForm", "orderReceiptType"]),
@@ -109,7 +115,7 @@ export default {
   methods: {
     ...mapActions("Addresses", ["setReceiptType"]),
     ...mapMutations("Addresses", { updateField: UPDATE_ADDRESS_FIELD }),
-    ...mapMutations("User", { setEntity: SET_ENTITY }),
+    ...mapMutations({ setEntity: SET_ENTITY }),
   },
   created() {
     this.$store.dispatch("Addresses/fetchAddresses");

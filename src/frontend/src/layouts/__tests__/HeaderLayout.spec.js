@@ -2,17 +2,19 @@ import { mount, createLocalVue } from "@vue/test-utils";
 import VueRouter from "vue-router";
 import Vuex from "vuex";
 import HeaderLayout from "../HeaderLayout";
-import { generateMockStore } from "../../store/mocks";
-import UserProfile from "../../components/UserProfile";
-import LoginLink from "../../components/LoginLink";
+import { generateMockStore } from "@/store/mocks";
+import UserProfile from "@/components/UserProfile";
+import LoginLink from "@/components/LoginLink";
+import { SET_ENTITY } from "@/store/mutation-types";
 
 const localVue = createLocalVue();
 localVue.use(VueRouter);
 localVue.use(Vuex);
 
 const authenticateUser = (store) => {
-  store.commit("User/SET_ENTITY", {
+  store.commit(SET_ENTITY, {
     entity: "isAuthenticated",
+    module: "User",
     value: true,
   });
 };
