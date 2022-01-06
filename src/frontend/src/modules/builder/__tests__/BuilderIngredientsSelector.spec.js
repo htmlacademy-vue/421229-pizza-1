@@ -34,6 +34,7 @@ describe("BuilderIngredientsSelector", () => {
   });
 
   it("renders with 2 BuilderIngredient components", () => {
+    console.log(wrapper.vm.ingredients);
     expect(wrapper.findAllComponents(BuilderIngredient)).toHaveLength(2);
   });
 

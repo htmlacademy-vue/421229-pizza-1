@@ -1,4 +1,4 @@
-import { SET_ENTITY, UPDATE_ENTITY } from "../mutation-types";
+import { DELETE_ENTITY, SET_ENTITY, UPDATE_ALL_MISC } from "../mutation-types";
 
 const actions = {
   async getOrders({ commit }) {
@@ -22,7 +22,7 @@ const actions = {
   async deleteOrder({ commit }, orderId) {
     await this.$api.orders.delete(orderId);
     commit(
-      "DELETE_ENTITY",
+      DELETE_ENTITY,
       { entity: "orders", module: "Orders", entityId: orderId },
       { root: true }
     );
@@ -30,7 +30,7 @@ const actions = {
   repeatOrder({ commit, dispatch, state, rootState }, order) {
     const stateOrder = state.orders.find(({ id }) => id === order.id);
     commit(
-      "SET_ENTITY",
+      SET_ENTITY,
       {
         module: "Cart",
         entity: "pizzas",
@@ -53,7 +53,7 @@ const actions = {
       },
       { root: true }
     );
-    commit("UPDATE_ALL_MISC", { values: order.orderMisc }, { root: true });
+    commit(UPDATE_ALL_MISC, { values: order.orderMisc }, { root: true });
     dispatch("Addresses/setReceiptType", order.orderAddress?.id, {
       root: true,
     });
@@ -107,18 +107,11 @@ const getters = {
     })),
 };
 
-const mutations = {
-  [UPDATE_ENTITY](state, { entity, value }) {
-    state[entity] = [...state[entity], value];
-  },
-};
-
 export default {
   namespaced: true,
   state: {
     orders: [],
   },
-  mutations,
   getters,
   actions,
 };

@@ -37,12 +37,15 @@
   </div>
 </template>
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "Login",
   mounted() {
     this.$refs.email.focus();
   },
   methods: {
+    ...mapActions("User", { loginAction: "login" }),
     async login() {
       if (
         !this.$refs.email.checkValidity() ||
@@ -50,7 +53,7 @@ export default {
       ) {
         return;
       }
-      await this.$store.dispatch("User/login", {
+      await this.loginAction({
         email: this.$refs.email.value,
         password: this.$refs.password.value,
       });

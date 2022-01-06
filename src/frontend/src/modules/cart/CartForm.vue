@@ -106,10 +106,10 @@ import { SET_ENTITY, UPDATE_ADDRESS_FIELD } from "../../store/mutation-types";
 export default {
   name: "CartForm",
   computed: {
-    ...mapState("User", ["user"]),
+    ...mapState("User", ["phone"]),
     ...mapState("Addresses", ["addresses", "addressForm", "orderReceiptType"]),
     userPhone() {
-      return this.user?.phone || "";
+      return this.phone || "";
     },
   },
   methods: {

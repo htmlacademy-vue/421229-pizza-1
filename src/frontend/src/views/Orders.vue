@@ -14,7 +14,7 @@ import HistoryOrder from "../modules/orders/HistoryOrder";
 export default {
   name: "Orders",
   components: { HistoryOrder },
-  computed: { ...mapGetters("Orders", ["historyOrders"]) },
+  computed: mapGetters("Orders", ["historyOrders"]),
   created() {
     this.$store.dispatch("Orders/getOrders");
   },
