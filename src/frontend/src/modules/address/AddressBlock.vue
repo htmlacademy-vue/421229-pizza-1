@@ -20,6 +20,7 @@
     <div class="layout__button">
       <button
         type="button"
+        data-test="add-new-address"
         class="button button--border"
         @click="addNewAddress"
       >

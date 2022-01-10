@@ -66,7 +66,7 @@ describe("AddressBlock", () => {
 
   it("render AddressForm component", () => {
     createComponent();
-    wrapper.vm.addNewAddress();
+    wrapper.find("[data-test='add-new-address']").trigger("click");
     wrapper.vm.$nextTick(() => {
       expect(wrapper.findComponent(AddressForm).exists()).toBeTruthy();
     });
@@ -87,15 +87,20 @@ describe("AddressBlock", () => {
 
   it("method addNewAddress set showForm and default address", async () => {
     createComponent();
-    wrapper.vm.addNewAddress();
-    expect(wrapper.vm.address).toEqual(getDefaultAddress());
-    expect(wrapper.vm.showForm).toBeTruthy();
+    wrapper.find("[data-test='add-new-address']").trigger("click");
+    await wrapper.vm.$nextTick(() => {
+      expect(wrapper.findComponent(AddressForm).props().address).toEqual(
+        getDefaultAddress()
+      );
+    });
   });
 
   it("method closeForm reset showForm and set default address", async () => {
     createComponent();
     wrapper.vm.closeForm();
-    expect(wrapper.vm.address).toEqual(getDefaultAddress());
-    expect(wrapper.vm.showForm).toBeFalsy();
+    await wrapper.vm.$nextTick(() => {
+      expect(wrapper.findAllComponents(AddressForm)).toHaveLength(0);
+      expect(wrapper.vm.address).toEqual(getDefaultAddress());
+    });
   });
 });

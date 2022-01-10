@@ -10,11 +10,11 @@ describe("IngredientCounter", () => {
   let store;
   let wrapper;
 
-  const createComponent = (options) => {
-    wrapper = mount(IngredientCounter, options);
+  const createComponent = (propsData) => {
+    wrapper = mount(IngredientCounter, { store, localVue, propsData });
   };
   beforeEach(() => {
-    store = generateMockStore();
+    store = generateMockStore({ Builder: { editPizza: jest.fn() } });
   });
   afterEach(() => {
     wrapper.destroy();
@@ -22,7 +22,7 @@ describe("IngredientCounter", () => {
 
   it("is rendered", () => {
     const propsData = { ingredient: { quantity: 0, id: 1 } };
-    createComponent({ localVue, store, propsData });
+    createComponent(propsData);
     expect(wrapper.exists()).toBeTruthy();
   });
 
@@ -30,14 +30,14 @@ describe("IngredientCounter", () => {
     const propsData = { ingredient: { quantity: 0, id: 1 } };
 
     it("contains disabled decrement button", () => {
-      createComponent({ localVue, store, propsData });
+      createComponent(propsData);
       expect(
         wrapper.find(".counter__button--minus").element.disabled
       ).toBeTruthy();
     });
 
     it("contains enabled increment button", () => {
-      createComponent({ localVue, store, propsData });
+      createComponent(propsData);
       expect(
         wrapper.find(".counter__button--plus").element.disabled
       ).toBeFalsy();
@@ -48,14 +48,14 @@ describe("IngredientCounter", () => {
     const propsData = { ingredient: { quantity: 1, id: 1 } };
 
     it("contains enabled decrement button", () => {
-      createComponent({ localVue, store, propsData });
+      createComponent(propsData);
       expect(
         wrapper.find(".counter__button--minus").element.disabled
       ).toBeFalsy();
     });
 
     it("contains enabled increment button", () => {
-      createComponent({ localVue, store, propsData });
+      createComponent(propsData);
       expect(
         wrapper.find(".counter__button--plus").element.disabled
       ).toBeFalsy();
@@ -66,121 +66,74 @@ describe("IngredientCounter", () => {
     const propsData = { ingredient: { quantity: 3, id: 1 } };
 
     it("contains enabled decrement button", () => {
-      createComponent({ localVue, store, propsData });
+      createComponent(propsData);
       expect(
         wrapper.find(".counter__button--minus").element.disabled
       ).toBeFalsy();
     });
 
     it("contains disabled increment button", () => {
-      createComponent({ localVue, store, propsData });
+      createComponent(propsData);
       expect(
         wrapper.find(".counter__button--plus").element.disabled
       ).toBeTruthy();
     });
   });
 
-  describe("invokes updateIngredientCount on", () => {
-    const propsData = { ingredient: { quantity: 1, id: 1 } };
-
-    it("plus button click with term 1", () => {
-      createComponent({ localVue, store, propsData });
-      const updateIngredientCountSpy = jest.spyOn(
-        wrapper.vm,
-        "updateIngredientCount"
-      );
-      wrapper.find(".counter__button--plus").trigger("click");
-      expect(updateIngredientCountSpy).toHaveBeenCalledTimes(1);
-      expect(updateIngredientCountSpy).toHaveBeenCalledWith(1);
-    });
-
-    it("minus button click with term -1", () => {
-      createComponent({ localVue, store, propsData });
-      const updateIngredientCountSpy = jest.spyOn(
-        wrapper.vm,
-        "updateIngredientCount"
-      );
-      wrapper.find(".counter__button--minus").trigger("click");
-      expect(updateIngredientCountSpy).toHaveBeenCalledTimes(1);
-      expect(updateIngredientCountSpy).toHaveBeenCalledWith(-1);
-    });
-  });
-
-  describe("method updateIngredientCount", () => {
-    describe("when ingredient quantity is 0", () => {
+  describe("mutation updateIngredientCount change store correctly on plus button click", () => {
+    it("when ingredient quantity is 0", () => {
       const ingredient = { quantity: 0, id: 1 };
       const propsData = { ingredient };
 
-      it("should not invoke UPDATE_INGREDIENT on minus button click", () => {
-        createComponent({ localVue, store, propsData });
-        const updateIngredientMutationSpy = jest.spyOn(
-          wrapper.vm,
-          "updateIngredient"
-        );
-        wrapper.find(".counter__button--minus").trigger("click");
-        expect(updateIngredientMutationSpy).toHaveBeenCalledTimes(0);
-      });
-
-      it("should invoke UPDATE_INGREDIENT on plus click", () => {
-        createComponent({ localVue, store, propsData });
-        const updateIngredientMutationSpy = jest.spyOn(
-          wrapper.vm,
-          "updateIngredient"
-        );
-        wrapper.find(".counter__button--plus").trigger("click");
-        expect(updateIngredientMutationSpy).toHaveBeenCalledTimes(1);
-      });
-
-      it("should invoke UPDATE_INGREDIENT on plus click with quantity 1", () => {
-        createComponent({ localVue, store, propsData });
-        const updateIngredientMutationSpy = jest.spyOn(
-          wrapper.vm,
-          "updateIngredient"
-        );
-        wrapper.find(".counter__button--plus").trigger("click");
-        expect(updateIngredientMutationSpy).toHaveBeenCalledWith({
-          ...ingredient,
-          quantity: 1,
-        });
-      });
+      createComponent(propsData);
+      wrapper.find(".counter__button--plus").trigger("click");
+      expect(store.state["Builder"].pizza.ingredients[0].quantity).toBe(
+        ingredient.quantity + 1
+      );
     });
 
-    describe("when ingredient quantity is 3", () => {
-      const ingredient = { quantity: 3, id: 1 };
+    it("when ingredient quantity is 2", () => {
+      const ingredient = { quantity: 2, id: 1 };
       const propsData = { ingredient };
 
-      it("should not invoke UPDATE_INGREDIENT on plus button click", () => {
-        createComponent({ localVue, store, propsData });
-        const updateIngredientMutationSpy = jest.spyOn(
-          wrapper.vm,
-          "updateIngredient"
-        );
-        wrapper.find(".counter__button--plus").trigger("click");
-        expect(updateIngredientMutationSpy).toHaveBeenCalledTimes(0);
-      });
+      createComponent(propsData);
+      wrapper.find(".counter__button--plus").trigger("click");
+      expect(store.state["Builder"].pizza.ingredients[0].quantity).toBe(
+        ingredient.quantity + 1
+      );
+    });
 
-      it("should invoke UPDATE_INGREDIENT on minus click", () => {
-        createComponent({ localVue, store, propsData });
-        const updateIngredientMutationSpy = jest.spyOn(
-          wrapper.vm,
-          "updateIngredient"
-        );
-        wrapper.find(".counter__button--minus").trigger("click");
-        expect(updateIngredientMutationSpy).toHaveBeenCalledTimes(1);
-      });
+    it("when ingredient quantity is 3", () => {
+      const ingredient = { quantity: 2, id: 1 };
+      const propsData = { ingredient };
 
-      it("should invoke UPDATE_INGREDIENT on minus click with quantity 2", () => {
-        createComponent({ localVue, store, propsData });
-        const updateIngredientMutationSpy = jest.spyOn(
-          wrapper.vm,
-          "updateIngredient"
-        );
-        wrapper.find(".counter__button--minus").trigger("click");
-        expect(updateIngredientMutationSpy).toHaveBeenCalledWith({
-          ...ingredient,
-          quantity: 2,
-        });
-      });
+      createComponent(propsData);
+      wrapper.find(".counter__button--plus").trigger("click");
+      expect(store.state["Builder"].pizza.ingredients[0].quantity).toBe(3);
+
+      wrapper.find(".counter__button--plus").trigger("click");
+      expect(store.state["Builder"].pizza.ingredients[0].quantity).toBe(3);
+    });
+  });
+
+  describe("mutation updateIngredientCount change store correctly on minus button click", () => {
+    it("when ingredient quantity is 2", () => {
+      const ingredient = { quantity: 2, id: 1 };
+      const propsData = { ingredient };
+      createComponent(propsData);
+      wrapper.find(".counter__button--minus").trigger("click");
+      expect(store.state["Builder"].pizza.ingredients[0].quantity).toBe(1);
+    });
+
+    it("when ingredient quantity is 0", () => {
+      const ingredient = { quantity: 1, id: 1 };
+      const propsData = { ingredient };
+      createComponent(propsData);
+      wrapper.find(".counter__button--minus").trigger("click");
+      expect(store.state["Builder"].pizza.ingredients[0].quantity).toBe(0);
+
+      wrapper.find(".counter__button--minus").trigger("click");
+      expect(store.state["Builder"].pizza.ingredients[0].quantity).toBe(0);
     });
   });
 });
