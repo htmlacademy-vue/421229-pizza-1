@@ -1,5 +1,5 @@
 <template>
-  <span class="filling" :class="`filling--${ingredient.nameLat}`">
+  <span class="filling" :class="className">
     {{ ingredient.name }}
   </span>
 </template>
@@ -11,6 +11,11 @@ export default {
     ingredient: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    className() {
+      return `filling--${this.ingredient.nameLat}`;
     },
   },
 };

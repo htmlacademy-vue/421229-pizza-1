@@ -8,6 +8,7 @@ import {
   UPDATE_ALL_MISC,
   UPDATE_ENTITY,
   DELETE_ENTITY,
+  ADD_ENTITY,
 } from "./mutation-types";
 import VuexPlugins from "../plugins/vuexPlugins";
 import { getIdToItemMap } from "../common/utils/getIdToItemMap";
@@ -70,7 +71,7 @@ const actions = {
   },
 };
 
-const mutations = {
+export const mutations = {
   [SET_DND_TRANSFER_DATA](state, transferData) {
     state.dndTransferData = transferData || {};
   },
@@ -82,6 +83,12 @@ const mutations = {
     } else {
       (module ? state[module] : state)[entity] = value;
     }
+  },
+  [ADD_ENTITY](state, { module, entity, value }) {
+    (module ? state[module] : state)[entity] = [
+      ...(module ? state[module] : state)[entity],
+      value,
+    ];
   },
   [DELETE_ENTITY](state, { entity, module, entityId }) {
     (module ? state[module] : state)[entity] = (module ? state[module] : state)[
@@ -124,24 +131,26 @@ const getters = {
   ingredients: ({ ingredients }) => Object.values(ingredients),
 };
 
-export default new Vuex.Store({
-  state: {
-    dndTransferData: {},
-    sauce: {
-      list: [],
-      map: {},
-    },
-    ingredients: {},
-    sizes: {
-      list: [],
-      map: {},
-    },
-    dough: {
-      list: [],
-      map: {},
-    },
-    misc: [],
+export const getInitialState = () => ({
+  dndTransferData: {},
+  sauce: {
+    list: [],
+    map: {},
   },
+  ingredients: {},
+  sizes: {
+    list: [],
+    map: {},
+  },
+  dough: {
+    list: [],
+    map: {},
+  },
+  misc: [],
+});
+
+export default new Vuex.Store({
+  state: getInitialState(),
   plugins: [VuexPlugins],
   getters,
   mutations,

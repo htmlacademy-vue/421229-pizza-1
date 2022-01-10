@@ -15,6 +15,7 @@ import { mapActions } from "vuex";
 import OrderPopup from "../modules/orders/OrderPopup";
 
 export default {
+  name: "LayoutForm",
   data() {
     return {
       showOrderPopup: false,

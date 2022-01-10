@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div data-test="default-layout">
     <HeaderLayout />
     <main class="content">
       <slot />
@@ -12,8 +12,6 @@ import HeaderLayout from "@/layouts/HeaderLayout.vue";
 
 export default {
   name: "DefaultLayout",
-  components: {
-    HeaderLayout,
-  },
+  components: { HeaderLayout },
 };
 </script>

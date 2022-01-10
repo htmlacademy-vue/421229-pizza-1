@@ -1,14 +1,8 @@
 <template>
   <div class="user">
     <picture>
-      <source
-        type="image/webp"
-        :srcset="`
-          ${avatar} 1x,
-          ${avatar} 2x
-        `"
-      />
-      <img :src="avatar" :alt="name" width="72" height="72" />
+      <source type="image/webp" :srcset="userAvatar.webp" />
+      <img :src="userAvatar.jpg" :alt="name" width="72" height="72" />
     </picture>
     <div class="user__name">
       <span>{{ name }}</span>
@@ -27,8 +21,15 @@ export default {
     ...mapState("User", {
       name: (state) => state.user?.name,
       avatar: (state) => state.user?.avatar,
-      phone: (state) => state.phone,
+      phone: (state) => state.user?.phone,
     }),
+    userAvatar() {
+      const withoutExtension = this.avatar?.replace(/\.jpg/, "");
+      return {
+        jpg: `${withoutExtension}@2x.jpg`,
+        webp: `${withoutExtension}@2x.webp`,
+      };
+    },
   },
 };
 </script>

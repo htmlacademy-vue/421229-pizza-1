@@ -11,6 +11,7 @@
 
       <div class="order__button">
         <button
+          data-test="delete-button"
           type="button"
           class="button button--border"
           @click="deleteOrder(order.id)"
@@ -19,7 +20,12 @@
         </button>
       </div>
       <div class="order__button">
-        <button type="button" class="button" @click="goToRepeatOrder">
+        <button
+          type="button"
+          data-test="repeat-button"
+          class="button"
+          @click="goToRepeatOrder"
+        >
           Повторить
         </button>
       </div>
@@ -54,7 +60,7 @@
 <script>
 import PizzaDescription from "../../components/PizzaDescription";
 import HistoryMiscItem from "./HistoryMiscItem";
-import { mapActions, mapState } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: "HistoryOrder",
@@ -66,7 +72,6 @@ export default {
     },
   },
   computed: {
-    ...mapState("Addresses", ["addresses"]),
     orderSum() {
       return this.order.orderPizzas
         .concat(this.order.orderMisc)
@@ -76,13 +81,10 @@ export default {
         );
     },
     address() {
-      const { name, street, building, flat, id } =
-        this.order.orderAddress || {};
-      const existedAddress = this.addresses.find(
-        (address) => address.id === id
-      );
-      let formattedAddress = existedAddress ? name : "";
-      if (!existedAddress) {
+      const { name, street, building, flat } = this.order.orderAddress || {};
+      const isNew = name === "Новый адрес";
+      let formattedAddress = isNew ? "" : name;
+      if (isNew) {
         const flatPart = flat ? `, кв. ${flat}` : "";
         const streetPart = street ? `улица ${street}` : "";
         const buildingPart = building ? `, дом ${building}` : "";

@@ -10,12 +10,9 @@
     <div class="product__text">
       <h2>{{ pizza.name }}</h2>
       <ul>
-        <li>{{ sizeDough }}</li>
-        <li>Соус: {{ sauceName }}</li>
-        <li>
-          Начинка:
-          {{ filling }}
-        </li>
+        <li data-test="sizeDough">{{ sizeDough }}</li>
+        <li data-test="sauce">Соус: {{ sauceName }}</li>
+        <li data-test="filling">Начинка: {{ filling }}</li>
       </ul>
     </div>
   </div>
