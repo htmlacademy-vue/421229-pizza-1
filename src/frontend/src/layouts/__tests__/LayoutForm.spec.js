@@ -39,15 +39,13 @@ describe("HeaderLayout", () => {
     expect(wrapper.findComponent(OrderPopup).exists()).toBeFalsy();
 
     await wrapper.find(".layout-form").trigger("submit");
-    await wrapper.vm.$nextTick(() => {
-      expect(wrapper.findComponent(OrderPopup).exists()).toBeTruthy();
-    });
+    await wrapper.vm.$nextTick();
+    expect(wrapper.findComponent(OrderPopup).exists()).toBeTruthy();
   });
 
   it("hide order popup on closePopup", () => {
     wrapper.vm.closePopup();
-    wrapper.vm.$nextTick(() => {
-      expect(wrapper.findComponent(OrderPopup).exists()).toBeFalsy();
-    });
+    wrapper.vm.$nextTick();
+    expect(wrapper.findComponent(OrderPopup).exists()).toBeFalsy();
   });
 });
