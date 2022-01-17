@@ -40,7 +40,17 @@ export default {
       required: true,
     },
   },
+
   computed: mapState(["dndTransferData"]),
+  watch: {
+    dndTransferData() {
+      if (this.dndTransferData.id === this.ingredient.id) {
+        this.updateIngredientCount(1);
+        this.setDndTransferData();
+      }
+    },
+  },
+
   methods: {
     ...mapMutations("Builder", { updateIngredient: UPDATE_INGREDIENT }),
     ...mapMutations({ setDndTransferData: SET_DND_TRANSFER_DATA }),
@@ -56,13 +66,9 @@ export default {
       });
     },
   },
-  watch: {
-    dndTransferData() {
-      if (this.dndTransferData.id === this.ingredient.id) {
-        this.updateIngredientCount(1);
-        this.setDndTransferData();
-      }
-    },
-  },
 };
 </script>
+<style lang="scss">
+@import "~@/assets/scss/mixins/mixins";
+@import "~@/assets/scss/blocks/counter";
+</style>

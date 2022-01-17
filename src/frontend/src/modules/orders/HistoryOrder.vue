@@ -33,15 +33,15 @@
 
     <ul class="order__list">
       <li
-        class="order__item"
         v-for="pizza in order.orderPizzas"
         :key="pizza.id"
+        class="order__item"
       >
         <PizzaDescription :pizza="pizza" />
 
         <p class="order__price">
-          <span v-if="pizza.quantity > 1">{{ pizza.quantity }}х</span
-          >{{ pizza.price }} ₽
+          <span v-if="pizza.quantity > 1">{{ pizza.quantity }}х</span>
+          {{ pizza.price }} ₽
         </p>
       </li>
     </ul>
@@ -54,7 +54,12 @@
       />
     </ul>
 
-    <p v-show="address" class="order__address">{{ address }}</p>
+    <p
+      v-show="address"
+      class="order__address"
+    >
+      {{ address }}
+    </p>
   </section>
 </template>
 <script>
@@ -71,6 +76,7 @@ export default {
       required: true,
     },
   },
+
   computed: {
     orderSum() {
       return this.order.orderPizzas
@@ -80,6 +86,7 @@ export default {
           0
         );
     },
+
     address() {
       const { name, street, building, flat } = this.order.orderAddress || {};
       const isNew = name === "Новый адрес";
@@ -93,6 +100,7 @@ export default {
       return formattedAddress ? `Адрес доставки: ${formattedAddress}` : "";
     },
   },
+
   methods: {
     ...mapActions("Orders", ["deleteOrder", "repeatOrder"]),
     goToRepeatOrder() {
@@ -102,3 +110,7 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+@import "~@/assets/scss/mixins/mixins";
+@import "~@/assets/scss/blocks/order";
+</style>

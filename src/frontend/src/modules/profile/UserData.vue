@@ -1,8 +1,16 @@
 <template>
   <div class="user">
     <picture>
-      <source type="image/webp" :srcset="userAvatar.webp" />
-      <img :src="userAvatar.jpg" :alt="name" width="72" height="72" />
+      <source
+        type="image/webp"
+        :srcset="userAvatar.webp"
+      />
+      <img
+        :src="userAvatar.jpg"
+        :alt="name"
+        width="72"
+        height="72"
+      />
     </picture>
     <div class="user__name">
       <span>{{ name }}</span>
@@ -23,6 +31,7 @@ export default {
       avatar: (state) => state.user?.avatar,
       phone: (state) => state.user?.phone,
     }),
+
     userAvatar() {
       const withoutExtension = this.avatar?.replace(/\.jpg/, "");
       return {
@@ -33,3 +42,6 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+@import "~@/assets/scss/blocks/user";
+</style>

@@ -1,7 +1,10 @@
 <template>
   <header class="header">
     <div class="header__logo">
-      <router-link to="/" class="logo">
+      <router-link
+        to="/"
+        class="logo"
+      >
         <img
           src="@/assets/img/logo.svg"
           alt="V!U!E! Pizza logo"
@@ -11,7 +14,12 @@
       </router-link>
     </div>
     <div class="header__cart">
-      <router-link to="/cart" class="logo">{{ totalSum }} ₽</router-link>
+      <router-link
+        to="/cart"
+        class="logo"
+      >
+        {{ totalSum }} ₽
+      </router-link>
     </div>
     <UserProfile v-if="isAuthenticated" />
     <LoginLink v-else />
@@ -31,3 +39,6 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+@import "~@/assets/scss/layout/header";
+</style>

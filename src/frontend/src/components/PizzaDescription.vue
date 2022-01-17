@@ -25,15 +25,18 @@ export default {
       type: Object,
       required: true,
     },
+
     additionalClass: {
       type: String,
       default: "",
     },
   },
+
   computed: {
     wrapClass() {
       return `product ${this.additionalClass}`;
     },
+
     filling() {
       return this.pizza.ingredients.reduce((result, ingredient, index) => {
         return index === 0
@@ -41,9 +44,11 @@ export default {
           : `${result}, ${ingredient.name?.toLowerCase()}`;
       }, "");
     },
+
     sauceName() {
       return this.pizza.sauce?.name?.toLowerCase();
     },
+
     sizeDough() {
       const { size, dough } = this.pizza;
       return `${size?.name}, на ${dough?.prepositional} тесте`;
@@ -51,3 +56,7 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+@import "~@/assets/scss/mixins/mixins";
+@import "~@/assets/scss/blocks/product";
+</style>

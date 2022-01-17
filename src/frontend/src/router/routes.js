@@ -9,12 +9,12 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: () => import("../views/Index.vue"),
+    component: () => import("../views/IndexHome.vue"),
     children: [
       {
         path: "/edit/:id",
         name: "PizzaEdit",
-        component: () => import("../views/Index.vue"),
+        component: () => import("../views/IndexHome.vue"),
         meta: {
           middlewares: [auth],
         },
@@ -24,7 +24,7 @@ const routes = [
   {
     path: "/cart",
     name: "Cart",
-    component: () => import("../views/Cart"),
+    component: () => import("../views/CartView"),
     meta: {
       layout: "LayoutForm",
     },
@@ -32,7 +32,7 @@ const routes = [
   {
     path: "/profile",
     name: "Profile",
-    component: () => import("../views/Profile"),
+    component: () => import("../views/ProfileView"),
     meta: {
       layout: "ProfileLayout",
       title: "Мои данные",
@@ -42,7 +42,7 @@ const routes = [
   {
     path: "/orders",
     name: "Orders",
-    component: () => import("../views/Orders"),
+    component: () => import("../views/OrdersView"),
     meta: {
       layout: "ProfileLayout",
       title: "История заказов",
@@ -52,7 +52,7 @@ const routes = [
   {
     path: "/login",
     name: "Login",
-    component: () => import("../views/Login"),
+    component: () => import("../views/LoginView"),
     meta: {
       layout: "ModalLayout",
       middlewares: [isLoggedIn],

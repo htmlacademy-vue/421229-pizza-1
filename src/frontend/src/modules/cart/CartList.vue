@@ -1,8 +1,12 @@
 <template>
   <ul class="cart-list sheet">
-    <li class="cart-list__item" v-for="pizza in pizzas" :key="pizza.id">
+    <li
+      v-for="pizza in pizzas"
+      :key="pizza.id"
+      class="cart-list__item"
+    >
       <PizzaDescription
-        additionalClass="cart-list__product"
+        additional-class="cart-list__product"
         :pizza="getFullPizza(pizza)"
       />
 
@@ -10,14 +14,7 @@
         <button
           type="button"
           class="counter__button counter__button--minus"
-          @click="
-            changeCount({
-              entity: 'pizzas',
-              module: 'Cart',
-              value: pizza,
-              term: -1,
-            })
-          "
+          @click="decrease(pizza)"
         >
           <span class="visually-hidden">Меньше</span>
         </button>
@@ -30,14 +27,7 @@
         <button
           type="button"
           class="counter__button counter__button--plus counter__button--orange"
-          @click="
-            changeCount({
-              entity: 'pizzas',
-              module: 'Cart',
-              value: pizza,
-              term: 1,
-            })
-          "
+          @click="increase(pizza)"
         >
           <span class="visually-hidden">Больше</span>
         </button>
@@ -60,22 +50,35 @@
   </ul>
 </template>
 <script>
-import { mapGetters, mapMutations, mapState } from "vuex";
-import { UPDATE_COUNT } from "../../store/mutation-types";
+import { mapActions, mapGetters, mapState } from "vuex";
 import PizzaDescription from "../../components/PizzaDescription";
 
 export default {
   name: "CartList",
+  components: { PizzaDescription },
   computed: {
     ...mapState("Cart", ["pizzas"]),
     ...mapGetters("Builder", ["getFullPizza"]),
   },
-  components: { PizzaDescription },
+
   methods: {
-    ...mapMutations({ changeCount: UPDATE_COUNT }),
+    ...mapActions("Cart", ["changeCount"]),
     goEditPizza(pizza) {
       this.$router.push({ path: `/edit/${pizza.id}` });
     },
+
+    increase(pizza) {
+      this.changeCount({ pizza, term: 1 });
+    },
+
+    decrease(pizza) {
+      this.changeCount({ pizza, term: -1 });
+    }
   },
 };
 </script>
+<style lang="scss">
+@import "~@/assets/scss/mixins/mixins";
+@import "~@/assets/scss/blocks/cart-list";
+@import "~@/assets/scss/blocks/counter";
+</style>

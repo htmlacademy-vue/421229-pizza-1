@@ -15,3 +15,6 @@ export default {
   components: { HeaderLayout },
 };
 </script>
+<style lang="scss">
+@import "~@/assets/scss/layout/content";
+</style>

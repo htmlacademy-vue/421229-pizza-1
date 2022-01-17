@@ -1,12 +1,12 @@
-import Profile from "@/views/Profile";
+import ProfileView from "@/views/ProfileView";
 import { shallowMount } from "@vue/test-utils";
 import AddressBlock from "@/modules/address/AddressBlock";
 import UserData from "@/modules/profile/UserData";
 
-describe("Profile", () => {
+describe("ProfileView", () => {
   let wrapper;
   const createComponent = () => {
-    wrapper = shallowMount(Profile);
+    wrapper = shallowMount(ProfileView);
   };
 
   beforeEach(() => {

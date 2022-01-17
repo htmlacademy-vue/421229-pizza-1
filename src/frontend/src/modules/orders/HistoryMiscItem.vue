@@ -1,6 +1,11 @@
 <template>
   <li>
-    <img :src="misc.image" width="20" height="30" :alt="misc.name" />
+    <img
+      :src="misc.image"
+      width="20"
+      height="30"
+      :alt="misc.name"
+    />
     <p>
       <span>{{ misc.name }}</span>
       <b data-test="sum">{{ sum }} ₽</b>
@@ -16,6 +21,7 @@ export default {
       required: true,
     },
   },
+
   computed: {
     sum() {
       return this.misc.quantity * this.misc.price;

@@ -1,7 +1,7 @@
 <template>
   <li class="ingredients__item">
     <AppDrag
-      :transferData="currentIngredient"
+      :transfer-data="currentIngredient"
       :draggable="currentIngredient.quantity < 3"
     >
       <IngredientName :ingredient="currentIngredient" />
@@ -17,12 +17,14 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "BuilderIngredient",
+  components: { AppDrag, IngredientCounter, IngredientName },
   props: {
     ingredient: {
       type: Object,
       required: true,
     },
   },
+
   computed: {
     ...mapGetters("Builder", ["activeIngredients"]),
     currentIngredient() {
@@ -33,6 +35,5 @@ export default {
       );
     },
   },
-  components: { AppDrag, IngredientCounter, IngredientName },
 };
 </script>

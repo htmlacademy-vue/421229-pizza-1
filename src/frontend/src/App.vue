@@ -1,5 +1,8 @@
 <template>
-  <transition name="slide" mode="out-in">
+  <transition
+    name="slide"
+    mode="out-in"
+  >
     <AppLayout>
       <router-view />
     </AppLayout>

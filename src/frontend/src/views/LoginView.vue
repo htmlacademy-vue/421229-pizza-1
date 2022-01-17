@@ -1,6 +1,9 @@
 <template>
   <div class="sign-form">
-    <router-link to="/" class="close close--white">
+    <router-link
+      to="/"
+      class="close close--white"
+    >
       <span class="visually-hidden">Закрыть форму авторизации</span>
     </router-link>
     <div class="sign-form__title">
@@ -11,10 +14,10 @@
         <label class="input">
           <span>E-mail</span>
           <input
+            ref="email"
             type="email"
             name="email"
             placeholder="example@mail.ru"
-            ref="email"
             required
           />
         </label>
@@ -32,7 +35,12 @@
           />
         </label>
       </div>
-      <button type="submit" class="button">Авторизоваться</button>
+      <button
+        type="submit"
+        class="button"
+      >
+        Авторизоваться
+      </button>
     </form>
   </div>
 </template>
@@ -40,10 +48,11 @@
 import { mapActions } from "vuex";
 
 export default {
-  name: "Login",
+  name: "LoginView",
   mounted() {
     this.$refs.email.focus();
   },
+
   methods: {
     ...mapActions("User", { loginAction: "login" }),
     async login() {
@@ -62,3 +71,9 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+@import "~@/assets/scss/mixins/mixins";
+@import "~@/assets/scss/layout/sign-form";
+@import "~@/assets/scss/blocks/input";
+@import "~@/assets/scss/blocks/button";
+</style>

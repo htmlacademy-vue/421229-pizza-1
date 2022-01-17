@@ -1,15 +1,15 @@
-import Cart from "@/views/Cart";
+import CartView from "@/views/CartView";
 import { shallowMount } from "@vue/test-utils";
 import { generateMockStore } from "@/store/mocks";
 import { setPizza } from "@/common/test-utils/cart";
 import CartContent from "@/modules/cart/CartContent";
 import CartEmpty from "@/modules/cart/CartEmpty";
 
-describe("Cart", () => {
+describe("CartView", () => {
   let wrapper;
   const store = generateMockStore();
   const createComponent = () => {
-    wrapper = shallowMount(Cart, { store });
+    wrapper = shallowMount(CartView, { store });
   };
 
   beforeEach(() => {

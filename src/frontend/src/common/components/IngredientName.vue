@@ -1,5 +1,8 @@
 <template>
-  <span class="filling" :class="className">
+  <span
+    class="filling"
+    :class="className"
+  >
     {{ ingredient.name }}
   </span>
 </template>
@@ -13,6 +16,7 @@ export default {
       required: true,
     },
   },
+
   computed: {
     className() {
       return `filling--${this.ingredient.nameLat}`;
@@ -20,3 +24,7 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+@import "~@/assets/scss/mixins/mixins";
+@import "~@/assets/scss/blocks/filling";
+</style>

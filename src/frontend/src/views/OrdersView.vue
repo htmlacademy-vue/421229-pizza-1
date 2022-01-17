@@ -12,7 +12,7 @@ import { mapGetters } from "vuex";
 import HistoryOrder from "../modules/orders/HistoryOrder";
 
 export default {
-  name: "Orders",
+  name: "OrdersView",
   components: { HistoryOrder },
   computed: mapGetters("Orders", ["historyOrders"]),
   created() {

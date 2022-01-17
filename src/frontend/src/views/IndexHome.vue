@@ -1,5 +1,8 @@
 <template>
-  <form action="#" method="post">
+  <form
+    action="#"
+    method="post"
+  >
     <div class="content__wrapper">
       <h1 class="title title--big">Конструктор пиццы</h1>
       <BuilderDoughSelector />

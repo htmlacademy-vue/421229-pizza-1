@@ -2,8 +2,8 @@
   <div>
     <div class="layout__address">
       <form
-        @submit.prevent="saveAddress"
         class="address-form address-form--opened sheet"
+        @submit.prevent="saveAddress"
       >
         <div class="address-form__header">
           <b>Адрес №{{ addressNumber }}</b>
@@ -18,8 +18,8 @@
                 name="addr-name"
                 placeholder="Введите название адреса"
                 :value="address.name"
-                @input="$emit('changeValue', { name: $event.target.value })"
                 required
+                @input="$emit('change-value', { name: $event.target.value })"
               />
             </label>
           </div>
@@ -31,8 +31,8 @@
                 name="addr-street"
                 placeholder="Введите название улицы"
                 :value="address.street"
-                @input="$emit('changeValue', { street: $event.target.value })"
                 required
+                @input="$emit('change-value', { street: $event.target.value })"
               />
             </label>
           </div>
@@ -44,8 +44,10 @@
                 name="addr-house"
                 placeholder="Введите номер дома"
                 :value="address.building"
-                @input="$emit('changeValue', { building: $event.target.value })"
                 required
+                @input="
+                  $emit('change-value', { building: $event.target.value })
+                "
               />
             </label>
           </div>
@@ -57,7 +59,7 @@
                 name="addr-apartment"
                 placeholder="Введите № квартиры"
                 :value="address.flat"
-                @input="$emit('changeValue', { flat: $event.target.value })"
+                @input="$emit('change-value', { flat: $event.target.value })"
               />
             </label>
           </div>
@@ -69,7 +71,7 @@
                 name="addr-comment"
                 placeholder="Введите комментарий"
                 :value="address.comment"
-                @input="$emit('changeValue', { comment: $event.target.value })"
+                @input="$emit('change-value', { comment: $event.target.value })"
               />
             </label>
           </div>
@@ -85,7 +87,12 @@
           >
             Удалить
           </button>
-          <button type="submit" class="button">Сохранить</button>
+          <button
+            type="submit"
+            class="button"
+          >
+            Сохранить
+          </button>
         </div>
       </form>
     </div>
@@ -101,26 +108,31 @@ export default {
       type: Number,
       default: 0,
     },
+
     address: {
       type: Object,
       required: true,
     },
+
     isEdited: {
       type: Boolean,
       default: false,
     },
   },
+
   computed: {
     addressNumber() {
       return this.addressCount + 1;
     },
   },
+
   methods: {
     ...mapActions("Addresses", [
       "postAddress",
       "updateAddress",
       "deleteAddress",
     ]),
+
     saveAddress($event) {
       const target = $event.target;
       if (!target.checkValidity()) {
@@ -134,13 +146,22 @@ export default {
         street: this.address.street,
         id: this.address.id,
       };
-      this.$emit("closeForm");
+      this.$emit("close-form");
       this.isEdited ? this.updateAddress(address) : this.postAddress(address);
     },
+
     removeAddress() {
-      this.$emit("closeForm");
+      this.$emit("close-form");
       this.deleteAddress(this.address.id);
     },
   },
 };
 </script>
+<style lang="scss">
+@import "~@/assets/scss/mixins/mixins";
+@import "~@/assets/scss/blocks/address-form";
+@import "~@/assets/scss/blocks/input";
+@import "~@/assets/scss/blocks/button";
+@import "~@/assets/scss/blocks/icon";
+@import "~@/assets/scss/layout/sheet";
+</style>

@@ -2,28 +2,29 @@
   <div class="ingredients__sauce">
     <p>Основной соус:</p>
 
-    <RadioButton
+    <AppRadioButton
       v-for="sauce in sauces"
+      :key="sauce.value"
       name="sauce"
       :variant="sauce"
-      :key="sauce.value"
-      :isChecked="sauce.id === activeSauce.id"
+      :checked="sauce.id === activeSauce.id"
       @onChange="updateSauce(sauce.id)"
     />
   </div>
 </template>
 
 <script>
-import RadioButton from "@/common/components/RadioButton.vue";
+import AppRadioButton from "@/common/components/AppRadioButton.vue";
 import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: "BuilderSauceSelector",
-  components: { RadioButton },
+  components: { AppRadioButton },
   computed: {
     ...mapState({ sauces: (state) => state.sauce.list }),
     ...mapGetters("Builder", ["activeSauce"]),
   },
+
   methods: { ...mapActions("Builder", ["updateSauce"]) },
 };
 </script>

@@ -5,11 +5,14 @@
         <span class="cart-form__label">Получение заказа:</span>
 
         <select
-          @change="setReceiptType($event.target.value)"
           name="orderReceiptType"
           class="select"
+          @change="setReceiptType($event.target.value)"
         >
-          <option value="pickup" :selected="orderReceiptType === 'pickup'">
+          <option
+            value="pickup"
+            :selected="orderReceiptType === 'pickup'"
+          >
             Заберу сам
           </option>
           <option
@@ -20,8 +23,8 @@
           </option>
           <option
             v-for="address in addresses"
-            :value="address.id"
             :key="address.id"
+            :value="address.id"
             :selected="orderReceiptType === address.id"
           >
             {{ address.name }}
@@ -46,7 +49,10 @@
         />
       </label>
 
-      <div v-show="orderReceiptType !== 'pickup'" class="cart-form__address">
+      <div
+        v-show="orderReceiptType !== 'pickup'"
+        class="cart-form__address"
+      >
         <span class="cart-form__label">
           {{ addressForm.name }}
         </span>
@@ -56,12 +62,12 @@
             <span>Улица*</span>
             <input
               type="text"
-              @change="
-                updateField({ field: 'street', value: $event.target.value })
-              "
               name="street"
               :readonly="addressForm.id"
               :value="addressForm.street"
+              @change="
+                updateField({ field: 'street', value: $event.target.value })
+              "
             />
           </label>
         </div>
@@ -112,13 +118,20 @@ export default {
       return this.phone || "";
     },
   },
+
+  created() {
+    this.$store.dispatch("Addresses/fetchAddresses");
+  },
+
   methods: {
     ...mapActions("Addresses", ["setReceiptType"]),
     ...mapMutations("Addresses", { updateField: UPDATE_ADDRESS_FIELD }),
     ...mapMutations({ setEntity: SET_ENTITY }),
   },
-  created() {
-    this.$store.dispatch("Addresses/fetchAddresses");
-  },
 };
 </script>
+<style lang="scss">
+@import "~@/assets/scss/blocks/cart-form";
+@import "~@/assets/scss/blocks/input";
+@import "~@/assets/scss/blocks/select";
+</style>
