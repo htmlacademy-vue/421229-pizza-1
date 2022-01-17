@@ -41,4 +41,5 @@ export default {
 </script>
 <style lang="scss">
 @import "~@/assets/scss/layout/header";
+@import "~@/assets/scss/blocks/logo";
 </style>

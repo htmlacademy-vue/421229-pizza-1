@@ -113,4 +113,5 @@ export default {
 <style lang="scss">
 @import "~@/assets/scss/mixins/mixins";
 @import "~@/assets/scss/blocks/order";
+@import "~@/assets/scss/blocks/button";
 </style>
