@@ -1,4 +1,4 @@
-import IndexHome from "@/views/Index";
+import IndexHome from "@/views/IndexHome";
 import { shallowMount } from "@vue/test-utils";
 import BuilderDoughSelector from "@/modules/builder/BuilderDoughSelector";
 import BuilderSizeSelector from "@/modules/builder/BuilderSizeSelector";

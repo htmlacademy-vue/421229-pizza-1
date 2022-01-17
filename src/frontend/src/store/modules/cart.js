@@ -1,4 +1,4 @@
-import { SET_ENTITY, SET_PIZZA, RESET_CART } from "../mutation-types";
+import { SET_ENTITY, SET_PIZZA, RESET_CART, UPDATE_COUNT } from "../mutation-types";
 
 const actions = {
   setPizza({ commit, rootGetters }) {
@@ -6,6 +6,18 @@ const actions = {
   },
   resetCart({ commit }) {
     commit(RESET_CART);
+  },
+  changeCount({ commit }, { pizza, term }) {
+    commit(
+      UPDATE_COUNT,
+      {
+        entity: "pizzas",
+        module: "Cart",
+        value: pizza,
+        term,
+      },
+      { root: true }
+    );
   },
 };
 

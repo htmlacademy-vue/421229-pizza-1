@@ -23,6 +23,7 @@ export default {
       return !(this.pizza.name && this.activeIngredients.length);
     },
   },
+
   methods: {
     ...mapActions("Cart", ["setPizza"]),
     ...mapActions("Builder", ["resetPizza"]),
@@ -33,3 +34,6 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+@import "~@/assets/scss/blocks/button";
+</style>

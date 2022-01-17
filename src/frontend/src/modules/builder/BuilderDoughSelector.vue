@@ -35,6 +35,13 @@ export default {
     ...mapState({ doughTypes: (state) => state.dough.list }),
     ...mapGetters("Builder", ["activeDough"]),
   },
+
   methods: mapActions("Builder", ["updateDough"]),
 };
 </script>
+<style lang="scss">
+@import "~@/assets/scss/mixins/mixins";
+@import "~@/assets/scss/layout/sheet";
+@import "~@/assets/scss/blocks/dough";
+@import "~@/assets/scss/blocks/title";
+</style>

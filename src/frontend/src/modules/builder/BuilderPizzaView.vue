@@ -12,10 +12,16 @@
     </label>
 
     <div class="content__constructor">
-      <div class="pizza" :class="modifier">
+      <div
+        class="pizza"
+        :class="modifier"
+      >
         <AppDrop>
           <div class="pizza__wrapper">
-            <transition-group name="drop" tag="div">
+            <transition-group
+              name="drop"
+              tag="div"
+            >
               <div
                 v-for="ingredient in activeIngredients"
                 :key="ingredient.id"
@@ -27,7 +33,6 @@
         </AppDrop>
       </div>
     </div>
-
     <BuilderPizzaPrice />
   </div>
 </template>
@@ -40,12 +45,14 @@ import { UPDATE_ENTITY } from "../../store/mutation-types";
 
 export default {
   name: "BuilderPizzaView",
+  components: { BuilderPizzaPrice, AppDrop },
   data() {
     return {
       timeout: null,
       debouncedValue: "",
     };
   },
+
   computed: {
     ...mapState("Cart", ["pizzas"]),
     ...mapState(["ingredients"]),
@@ -56,13 +63,20 @@ export default {
       "activeSauce",
       "activeDough",
     ]),
+
     modifier() {
       return `pizza--foundation--${
         this.activeDough?.type === "large" ? "big" : "small"
       }-${this.activeSauce?.value}`;
     },
   },
-  components: { BuilderPizzaPrice, AppDrop },
+
+  created() {
+    const id = this.$route.params.id;
+    const pizza = this.pizzas.find((pizza) => +pizza.id === +id);
+    pizza && this.editPizza(pizza);
+  },
+
   methods: {
     ...mapMutations("Builder", { updateEntity: UPDATE_ENTITY }),
     ...mapActions("Builder", ["editPizza"]),
@@ -79,6 +93,7 @@ export default {
           return "";
       }
     },
+
     setValue($event) {
       if (this.timeout) {
         clearTimeout(this.timeout);
@@ -89,14 +104,13 @@ export default {
       }, 400);
     },
   },
-  created() {
-    const id = this.$route.params.id;
-    const pizza = this.pizzas.find((pizza) => +pizza.id === +id);
-    pizza && this.editPizza(pizza);
-  },
 };
 </script>
 <style lang="scss">
+@import "~@/assets/scss/mixins/mixins";
+@import "~@/assets/scss/blocks/input";
+@import "~@/assets/scss/blocks/pizza";
+
 .drop-enter-active {
   transition: transform 400ms;
 }

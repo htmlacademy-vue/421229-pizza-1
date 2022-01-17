@@ -55,18 +55,16 @@ describe("CartList", () => {
     expect(wrapper.findAllComponents(PizzaDescription)).toHaveLength(1);
   });
 
-  it("invokes changeCount on decrement button click", async () => {
+  it("decrease pizza's quantity by 1 on decrement button click", async () => {
     await setPizza();
-    const changeCountSpy = jest.spyOn(wrapper.vm, "changeCount");
     wrapper.find(".counter__button--minus").trigger("click");
-    expect(changeCountSpy).toHaveBeenCalledTimes(1);
+    expect(store.state.Cart.pizzas[0].quantity).toBe(1);
   });
 
-  it("invokes changeCount on increment button click", async () => {
+  it("increase pizza's quantity by 1 on increment button click", async () => {
     await setPizza();
-    const changeCountSpy = jest.spyOn(wrapper.vm, "changeCount");
     wrapper.find(".counter__button--plus").trigger("click");
-    expect(changeCountSpy).toHaveBeenCalledTimes(1);
+    expect(store.state.Cart.pizzas[0].quantity).toBe(3);
   });
 
   it("invokes goEditPizza on edit button click", async () => {

@@ -5,7 +5,7 @@ import BuilderSauceSelector from "../BuilderSauceSelector";
 import { setActiveSauce } from "../../../common/test-utils/builder";
 import { setSauces } from "../../../common/test-utils/root";
 import { saucesMock } from "../../../common/test-utils/sauce.mock";
-import RadioButton from "../../../common/components/RadioButton";
+import RadioButton from "../../../common/components/AppRadioButton";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);

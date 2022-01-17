@@ -1,6 +1,9 @@
 <template>
   <div class="popup">
-    <a @click.prevent="closePopup" class="close">
+    <a
+      class="close"
+      @click.prevent="closePopup"
+    >
       <span class="visually-hidden">Закрыть попап</span>
     </a>
     <div class="popup__title">
@@ -8,7 +11,12 @@
     </div>
     <p>Мы начали готовить Ваш заказ, скоро привезём его вам ;)</p>
     <div class="popup__button">
-      <a @click.prevent="closePopup" class="button">Отлично, я жду!</a>
+      <a
+        class="button"
+        @click.prevent="closePopup"
+      >
+        Отлично, я жду!
+      </a>
     </div>
   </div>
 </template>
@@ -20,6 +28,7 @@ export default {
   computed: {
     ...mapState("User", ["user"]),
   },
+
   methods: {
     async closePopup() {
       this.$emit("closePopup");
@@ -34,3 +43,8 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+@import "~@/assets/scss/mixins/mixins";
+@import "~@/assets/scss/layout/popup";
+@import "~@/assets/scss/blocks/close";
+</style>

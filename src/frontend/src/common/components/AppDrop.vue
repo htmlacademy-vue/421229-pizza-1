@@ -1,5 +1,9 @@
 <template>
-  <div @drop.stop="onDrop" @dragover.prevent @dragenter.prevent>
+  <div
+    @drop.stop="onDrop"
+    @dragover.prevent
+    @dragenter.prevent
+  >
     <slot />
   </div>
 </template>
@@ -13,6 +17,7 @@ export default {
     ...mapMutations({
       setDndTransferData: SET_DND_TRANSFER_DATA,
     }),
+
     onDrop({ dataTransfer }) {
       const payload = dataTransfer.getData("payload");
       if (payload) {

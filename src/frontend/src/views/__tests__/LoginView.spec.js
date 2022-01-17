@@ -1,14 +1,14 @@
-import Login from "@/views/Login";
+import LoginView from "@/views/LoginView";
 import { shallowMount } from "@vue/test-utils";
 import { generateMockStore } from "@/store/mocks";
 
-describe("Login", () => {
+describe("LoginView", () => {
   let wrapper;
   const login = jest.fn();
   const routerPush = jest.fn();
   const store = generateMockStore({ User: { login } });
   const createComponent = () => {
-    wrapper = shallowMount(Login, {
+    wrapper = shallowMount(LoginView, {
       store,
       stubs: ["router-link"],
       mocks: { $router: { push: routerPush } },

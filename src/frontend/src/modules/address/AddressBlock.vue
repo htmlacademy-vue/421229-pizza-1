@@ -5,17 +5,17 @@
       :key="addressItem.id"
       :address="addressItem"
       :index="index"
-      :isEdited="address.id === addressItem.id"
-      :changeValue="changeValue"
-      @editAddress="editAddress"
-      @closeForm="closeForm"
+      :is-edited="address.id === addressItem.id"
+      :change-value="changeValue"
+      @edit-address="editAddress"
+      @close-form="closeForm"
     />
     <AddressForm
       v-if="showForm"
       :address="address"
-      :addressCount="addressCount"
-      @changeValue="changeValue"
-      @closeForm="closeForm"
+      :address-count="addressCount"
+      @change-value="changeValue"
+      @close-form="closeForm"
     />
     <div class="layout__button">
       <button
@@ -44,31 +44,37 @@ export const getDefaultAddress = () => ({
 });
 
 export default {
+  components: { AddressForm, AddressItem },
   data() {
     return {
       address: getDefaultAddress(),
       showForm: false,
     };
   },
-  components: { AddressForm, AddressItem },
+
   computed: {
     ...mapState("Addresses", ["addresses"]),
     addressCount() {
       return this.addresses.length;
     },
   },
+
   methods: {
     addNewAddress() {
       this.showForm = true;
       this.address = getDefaultAddress();
     },
+
     editAddress(id) {
+      this.showForm = false;
       this.address = this.addresses.find((address) => address.id === id);
     },
+
     changeValue(subject) {
       const key = Object.keys(subject)[0];
       this.address[key] = subject[key];
     },
+
     closeForm() {
       this.showForm = false;
       this.address = getDefaultAddress();
@@ -76,3 +82,6 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+@import "~@/assets/scss/blocks/button";
+</style>

@@ -2,9 +2,9 @@
   <div class="cart__additional">
     <ul class="additional-list">
       <li
-        class="additional-list__item sheet"
         v-for="miscItem in misc"
         :key="miscItem.id"
+        class="additional-list__item sheet"
       >
         <p class="additional-list__description">
           <img
@@ -21,7 +21,7 @@
             <button
               type="button"
               class="counter__button counter__button--minus"
-              @click="addMisc({ entity: 'misc', value: miscItem, term: -1 })"
+              @click="decrease(miscItem)"
             >
               <span class="visually-hidden">Меньше</span>
             </button>
@@ -36,7 +36,7 @@
               class="
                 counter__button counter__button--plus counter__button--orange
               "
-              @click="addMisc({ entity: 'misc', value: miscItem, term: 1 })"
+              @click="increase(miscItem)"
             >
               <span class="visually-hidden">Больше</span>
             </button>
@@ -59,6 +59,17 @@ export default {
   computed: mapState(["misc"]),
   methods: {
     ...mapMutations({ addMisc: UPDATE_COUNT }),
+    increase(miscItem) {
+      this.addMisc({ entity: 'misc', value: miscItem, term: 1 })
+    },
+
+    decrease(miscItem) {
+      this.addMisc({ entity: 'misc', value: miscItem, term: -1 })
+    },
   },
 };
 </script>
+<style lang="scss">
+@import "~@/assets/scss/mixins/mixins";
+@import "~@/assets/scss/blocks/additional-list";
+</style>

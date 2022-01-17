@@ -1,4 +1,4 @@
-import Orders from "@/views/Orders";
+import OrdersView from "@/views/OrdersView";
 import HistoryOrder from "@/modules/orders/HistoryOrder";
 import { shallowMount } from "@vue/test-utils";
 import { generateMockStore } from "@/store/mocks";
@@ -6,7 +6,7 @@ import { orderMock } from "@/common/test-utils/order.mock";
 import { SET_ENTITY } from "../../store/mutation-types";
 import { miscMock } from "../../common/test-utils/misc.mock";
 
-describe("Orders", () => {
+describe("OrdersView", () => {
   let wrapper;
   const store = generateMockStore();
   const setOrder = async () => {
@@ -23,7 +23,7 @@ describe("Orders", () => {
     });
   };
   const createComponent = () => {
-    wrapper = shallowMount(Orders, { store });
+    wrapper = shallowMount(OrdersView, { store });
   };
 
   beforeEach(() => {

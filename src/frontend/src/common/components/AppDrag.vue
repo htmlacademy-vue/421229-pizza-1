@@ -1,5 +1,8 @@
 <template>
-  <div :draggable="draggable" @dragstart.self="onDragStart">
+  <div
+    :draggable="draggable"
+    @dragstart.self="onDragStart"
+  >
     <slot />
   </div>
 </template>
@@ -11,11 +14,13 @@ export default {
       type: Object,
       required: true,
     },
+
     draggable: {
       type: Boolean,
       default: true,
     },
   },
+
   methods: {
     onDragStart({ dataTransfer }) {
       dataTransfer.setData("payload", JSON.stringify(this.transferData));

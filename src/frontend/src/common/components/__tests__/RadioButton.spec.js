@@ -1,5 +1,5 @@
 import { shallowMount } from "@vue/test-utils";
-import RadioButton from "../RadioButton";
+import RadioButton from "../AppRadioButton";
 
 describe("RadioButton", () => {
   const propsData = { variant: { value: "123", name: "label" }, name: "radio" };

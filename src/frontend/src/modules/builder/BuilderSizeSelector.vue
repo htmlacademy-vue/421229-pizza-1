@@ -6,9 +6,9 @@
       <div class="sheet__content diameter">
         <label
           v-for="size in sizes"
+          :key="size.id"
           class="diameter__input"
           :class="`diameter__input--${size.type}`"
-          :key="size.id"
         >
           <input
             type="radio"
@@ -34,6 +34,11 @@ export default {
     ...mapState({ sizes: (state) => state.sizes.list }),
     ...mapGetters("Builder", ["activeSize"]),
   },
+
   methods: { ...mapActions("Builder", ["updateSize"]) },
 };
 </script>
+<style lang="scss">
+@import "~@/assets/scss/mixins/mixins";
+@import "~@/assets/scss/blocks/diameter";
+</style>

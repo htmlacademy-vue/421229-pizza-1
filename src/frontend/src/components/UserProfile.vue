@@ -9,11 +9,20 @@
             ${avatar} 2x
           `"
         />
-        <img :src="avatar" :alt="name" width="32" height="32" />
+        <img
+          :src="avatar"
+          :alt="name"
+          width="32"
+          height="32"
+        />
       </picture>
       <span>{{ name }}</span>
     </router-link>
-    <a href="#" @click.prevent="$logout" class="header__logout">
+    <a
+      href="#"
+      class="header__logout"
+      @click.prevent="$logout"
+    >
       <span>Выйти</span>
     </a>
   </div>

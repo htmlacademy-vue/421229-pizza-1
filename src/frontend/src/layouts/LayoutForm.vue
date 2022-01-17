@@ -1,10 +1,17 @@
 <template>
-  <form @submit.prevent="createOrder" method="post" class="layout-form">
+  <form
+    method="post"
+    class="layout-form"
+    @submit.prevent="createOrder"
+  >
     <HeaderLayout />
     <slot />
     <CartFooter />
     <transition name="fade">
-      <OrderPopup v-if="showOrderPopup" @closePopup="closePopup" />
+      <OrderPopup
+        v-if="showOrderPopup"
+        @closePopup="closePopup"
+      />
     </transition>
   </form>
 </template>
@@ -16,12 +23,13 @@ import OrderPopup from "../modules/orders/OrderPopup";
 
 export default {
   name: "LayoutForm",
+  components: { CartFooter, HeaderLayout, OrderPopup },
   data() {
     return {
       showOrderPopup: false,
     };
   },
-  components: { CartFooter, HeaderLayout, OrderPopup },
+
   methods: {
     ...mapActions("Orders", ["sendOrder"]),
     ...mapActions("Cart", ["resetCart"]),
@@ -30,6 +38,7 @@ export default {
       this.resetCart();
       this.showOrderPopup = true;
     },
+
     closePopup() {
       this.showOrderPopup = false;
     },
@@ -37,6 +46,8 @@ export default {
 };
 </script>
 <style lang="scss">
+@import "~@/assets/scss/layout/layout-form";
+
 .fade-enter-active {
   animation: fade-in 500ms;
 }

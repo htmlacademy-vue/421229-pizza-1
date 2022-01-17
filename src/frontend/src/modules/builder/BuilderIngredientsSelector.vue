@@ -27,7 +27,11 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "BuilderIngredientsSelector",
-  computed: mapGetters(["ingredients"]),
   components: { BuilderIngredient },
+  computed: mapGetters(["ingredients"]),
 };
 </script>
+<style lang="scss">
+@import "~@/assets/scss/mixins/mixins";
+@import "~@/assets/scss/blocks/ingredients";
+</style>
